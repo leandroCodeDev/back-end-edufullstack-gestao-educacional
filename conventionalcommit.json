@@ -1,0 +1,85 @@
+{
+  "$schema": "https://github.com/lppedd/idea-conventional-commit/raw/master/src/main/resources/defaults/conventionalcommit.schema.json",
+  "types": {
+    "refactor": {
+      "description": "Ações que não corrigem um erro nem adicionam uma funcionalidade."
+    },
+    "fix": {
+      "description": "Mudanças que corrigem um erro."
+    },
+    "feat": {
+      "description": "Mudanças que introduzem uma nova funcionalidade."
+    },
+    "build": {
+      "description": "Mudanças que afetam o sistema de compilação ou dependências externas.<br>Exemplos de escopos: gulp, broccoli, npm",
+      "scopes": {
+        "npm": {},
+        "gulp": {},
+        "broccoli": {}
+      }
+    },
+    "chore": {
+      "description": "Mudanças que não são visíveis para o usuário."
+    },
+    "style": {
+      "description": "Mudanças que não afetam a lógica do código, como espaços em branco, formatação, pontos e vírgulas ausentes."
+    },
+    "test": {
+      "description": "Mudanças que adicionam testes ausentes ou corrigem os existentes."
+    },
+    "docs": {
+      "description": "Mudanças que afetam a documentação."
+    },
+    "perf": {
+      "description": "Mudanças que melhoram o desempenho."
+    },
+    "ci": {
+      "description": "Mudanças que afetam arquivos e scripts de configuração de CI (Integração Contínua).<br>Exemplos de escopos: travis, circle, browser-stack, sauce-labs"
+    },
+    "revert": {
+      "description": "Mudanças que revertam um commit anterior."
+    }
+  },
+  "footerTypes": [
+    {
+      "name": "BREAKING-CHANGE",
+      "description":"O commit introduz mudanças de API que quebram a compatibilidade."
+    },
+    {
+      "name": "Closes",
+      "description": "O commit fecha problemas ou solicitações de pull."
+    },
+    {
+      "name": "Implements",
+      "description": "O commit implementa funcionalidades."
+    },
+    {
+      "name": "Author",
+      "description": "O autor do commit."
+    },
+    {
+      "name": "Co-authored-by",
+      "description": "A pessoa especificada co-autorou as mudanças do commit."
+    },
+    {
+      "name": "Signed-off-by",
+      "description": "Um \"signoff\" pode certificar que o \"committer\" tem os direitos para submeter o trabalho sob a licença do projeto ou concorda com alguma representação do contribuidor, como um Certificado de Origem do Desenvolvedor."
+    },
+    {
+      "name": "Acked-by",
+      "description": "A pessoa especificada gostou das mudanças do commit."
+    },
+    {
+      "name": "Reviewed-by",
+      "description":"A pessoa especificada revisou e está completamente satisfeita com as mudanças do commit."
+    },
+    {
+      "name": "Tested-by",
+      "description": "A pessoa especificada aplicou as mudanças do commit e constatou que elas tiveram o efeito desejado."
+    },
+    {
+      "name": "Refs",
+      "description": "O commit faz referência a outro commit pelo seu ID de hash.<br>Para múltiplos IDs de hash, use uma vírgula como separador."
+    }
+  ]
+}
