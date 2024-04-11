@@ -1,6 +1,7 @@
 package com.api.edufullstackgestaoeducacional.services.Impl;
 
 import com.api.edufullstackgestaoeducacional.entities.PerfilEntity;
+import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 import com.api.edufullstackgestaoeducacional.repositories.PerfilRepository;
 import com.api.edufullstackgestaoeducacional.services.PerfilService;
 import lombok.AllArgsConstructor;
@@ -40,5 +41,18 @@ public class PerfilServiceImpl implements PerfilService {
     @Override
     public boolean existe(String nome) {
         return repository.findByNome(nome).isPresent();
+    }
+
+
+    public void validatePerfil(Long id) {
+        if (!existe(id)) {
+            throw new NotValidException("A validação falhou!", "O perfil informado não existe");
+        }
+    }
+
+    public void validatePerfil(String nome) {
+        if (!existe(nome)) {
+            throw new NotValidException("A validação falhou!", "O perfil informado não existe");
+        }
     }
 }

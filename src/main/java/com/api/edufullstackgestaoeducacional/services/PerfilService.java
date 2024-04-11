@@ -16,4 +16,7 @@ public interface PerfilService {
 
     boolean existe(String perfil);
 
+    void validatePerfil(Long id);
+
+    void validatePerfil(String perfil);
 }

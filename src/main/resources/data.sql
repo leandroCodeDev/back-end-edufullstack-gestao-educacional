@@ -2,7 +2,7 @@
 INSERT INTO perfil (id, nome)
 SELECT id, nome
 FROM (VALUES
-    (1, 'ADM'),
+    (1, 'ADMIN'),
     (2, 'PEDAGOGICO'),
     (3, 'RECRUITER'),
     (4, 'PROFESSOR'),
