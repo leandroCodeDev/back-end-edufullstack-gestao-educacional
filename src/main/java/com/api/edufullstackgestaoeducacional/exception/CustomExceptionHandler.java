@@ -2,6 +2,7 @@ package com.api.edufullstackgestaoeducacional.exception;
 
 import com.api.edufullstackgestaoeducacional.exception.erros.ErrorResponse;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -54,5 +55,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotValidException.class)
     public ResponseEntity<Object> handler(NotValidException e) {
         return new ResponseEntity(e.getErrorResponse(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Object> handler(UnauthorizedException e) {
+        return new ResponseEntity(e.getErrorResponse(), HttpStatus.UNAUTHORIZED);
     }
 }

@@ -7,6 +7,7 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.Response
 import com.api.edufullstackgestaoeducacional.entities.PerfilEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.UsuarioRepository;
 import com.api.edufullstackgestaoeducacional.services.PerfilService;
 import com.api.edufullstackgestaoeducacional.services.SenhaService;
@@ -76,21 +77,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void validaSenha(Long id, String senha) {
-        UsuarioEntity user = repository.findById(id).orElseThrow(() -> new NotValidException("A validação Falhou", "Login ou senha incorreto"));
+        UsuarioEntity user = repository.findById(id).orElseThrow(() -> new UnauthorizedException("A validação Falhou", "Login ou senha incorreto"));
         if (!senhaService.comparaSenha(senha, user.getSenha())) {
-            throw new NotValidException("A validação Falhou", "Login ou senha incorreto");
+            throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }
     }
 
     @Override
     public void validaSenha(String senha, String senhaEncriptada) {
         if (!senhaService.comparaSenha(senha, senhaEncriptada)) {
-            throw new NotValidException("A validação Falhou", "Login ou senha incorreto");
+            throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }
     }
 
     private UsuarioEntity pegaPeloLogin(String login) {
-        return repository.findByLogin(login).orElseThrow(() -> new NotValidException("A validação Falhou", "Login ou senha incorreto"));
+        return repository.findByLogin(login).orElseThrow(() -> new UnauthorizedException("A validação Falhou", "Login ou senha incorreto"));
     }
 
 
