@@ -23,4 +23,8 @@ public class PerfilEntity {
     public PerfilEntity(String nome) {
         this.nome = nome;
     }
+
+    public PerfilEntity(Long id) {
+        this.id = id;
+    }
 }
