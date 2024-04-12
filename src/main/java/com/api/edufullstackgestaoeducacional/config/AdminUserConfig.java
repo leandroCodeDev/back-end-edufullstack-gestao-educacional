@@ -26,6 +26,8 @@ public class AdminUserConfig implements CommandLineRunner {
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin("admin");
         if (user == null) {
             usuarioService.create(new RequestNovoUsuario("admin", "admin", perfil.getId()));
+        } else {
+            System.out.println("admin ja cadastrado");
         }
     }
 }

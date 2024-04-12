@@ -1,9 +1,6 @@
 package com.api.edufullstackgestaoeducacional.services.Impl;
 
-import com.api.edufullstackgestaoeducacional.services.ColecaoService;
-import com.api.edufullstackgestaoeducacional.services.PerfilService;
-import com.api.edufullstackgestaoeducacional.services.TokenService;
-import com.api.edufullstackgestaoeducacional.services.UsuarioService;
+import com.api.edufullstackgestaoeducacional.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +11,7 @@ public class ColecaoServiceImpl implements ColecaoService {
     private final UsuarioService usuarioService;
     private final PerfilService perfilService;
     private final TokenService tokenService;
+    private final SenhaService senhaService;
 
     @Override
     public UsuarioService getUsuarioService() {
@@ -28,5 +26,10 @@ public class ColecaoServiceImpl implements ColecaoService {
     @Override
     public TokenService getTokenService() {
         return tokenService;
+    }
+
+    @Override
+    public SenhaService getSenhaService() {
+        return senhaService;
     }
 }

@@ -9,6 +9,7 @@ import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 import com.api.edufullstackgestaoeducacional.repositories.UsuarioRepository;
 import com.api.edufullstackgestaoeducacional.services.PerfilService;
+import com.api.edufullstackgestaoeducacional.services.SenhaService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
@@ -25,6 +26,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     private TokenService tokenService;
 
     @Setter
+    private SenhaService senhaService;
+
+    @Setter
     private PerfilService perfilService;
     public UsuarioServiceImpl(UsuarioRepository repository) {
         this.repository = repository;
@@ -35,6 +39,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         UsuarioEntity user = pegaPeloLogin(dto.login());
         user = pegaPeloLogin(user.getLogin());
+        validaSenha(dto.senha(), user.getSenha());
         return new ResponseLogin(tokenService.gerarToken(user));
     }
 
@@ -47,7 +52,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public ResponseNovoUsuario create(RequestNovoUsuario dto) {
         loginExiste(dto.login());
 
-        UsuarioEntity user = repository.save(new UsuarioEntity(dto));
+        UsuarioEntity user = new UsuarioEntity(dto);
+        user.setSenha(senhaService.encriptSenha(user.getSenha()));
+        user = repository.save(user);
         return user.toResponseNovoUsuarioDto();
     }
 
@@ -68,8 +75,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 
     @Override
-    public boolean validaSenha(Long id, String senha) {
-        return false;
+    public void validaSenha(Long id, String senha) {
+        UsuarioEntity user = repository.findById(id).orElseThrow(() -> new NotValidException("A validação Falhou", "Login ou senha incorreto"));
+        if (!senhaService.comparaSenha(senha, user.getSenha())) {
+            throw new NotValidException("A validação Falhou", "Login ou senha incorreto");
+        }
+    }
+
+    @Override
+    public void validaSenha(String senha, String senhaEncriptada) {
+        if (!senhaService.comparaSenha(senha, senhaEncriptada)) {
+            throw new NotValidException("A validação Falhou", "Login ou senha incorreto");
+        }
     }
 
     private UsuarioEntity pegaPeloLogin(String login) {
