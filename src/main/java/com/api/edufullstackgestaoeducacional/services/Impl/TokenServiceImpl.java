@@ -2,6 +2,7 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 
 
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -51,5 +52,47 @@ public class TokenServiceImpl implements TokenService {
                 .getClaims() // busca um campo especifico do token
                 .get(claim)    // definindo o campo a ser buscado
                 .toString(); // transforma a resposta em string
+    }
+
+
+    @Override
+    public void validateAdmin(String token) {
+        String perfil = buscaCampo(token.substring(7), "perfil");
+        if (!perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
+    }
+
+    @Override
+    public void validatePedadogico(String token) {
+        String perfil = buscaCampo(token.substring(7), "perfil");
+        if (!perfil.equals("PEDAGOGICO")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+    }
+
+    @Override
+    public void validateRecruiter(String token) {
+        String perfil = buscaCampo(token.substring(7), "perfil");
+        if (!perfil.equals("RECRUITER")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+    }
+
+    @Override
+    public void validateProfessor(String token) {
+        String perfil = buscaCampo(token.substring(7), "perfil");
+        if (!perfil.equals("PROFESSOR")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+    }
+
+    @Override
+    public void validateAluno(String token) {
+        String perfil = buscaCampo(token.substring(7), "perfil");
+        if (!perfil.equals("ALUNO")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
     }
 }
