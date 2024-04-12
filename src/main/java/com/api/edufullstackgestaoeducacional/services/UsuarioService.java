@@ -18,7 +18,13 @@ public interface UsuarioService {
 
     void setSenhaService(SenhaService senhaService);
 
+
     ResponseLogin logar(RequestLogin dto) throws NotValidException;
+
+    ResponseNovoUsuario cadastrar(RequestNovoUsuario dto);
+
+
+
 
     List<PerfilEntity> pegaTodos();
 
@@ -28,9 +34,9 @@ public interface UsuarioService {
 
     PerfilEntity pegaUm(String perfil);
 
-    ResponseNovoUsuario create(RequestNovoUsuario dto);
 
     void validaSenha(Long id, String senha);
 
     void validaSenha(String senha, String senhaEncriptada);
+
 }
