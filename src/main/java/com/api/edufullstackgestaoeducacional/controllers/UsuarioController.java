@@ -1,30 +1,28 @@
 package com.api.edufullstackgestaoeducacional.controllers;
 
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestLogin;
-import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseLogin;
+
 import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/usuarios")
+public class UsuarioController {
 
     private final UsuarioService service;
 
-    public LoginController(ColecaoService colecao) {
+    public UsuarioController(ColecaoService colecao) {
         this.service = colecao.getUsuarioService();
         this.service.setPerfilService(colecao.getPerfilService());
         this.service.setTokenService(colecao.getTokenService());
     }
 
-    @PostMapping()
-    public ResponseEntity<ResponseLogin> logar(@RequestBody @Valid RequestLogin request) {
-        return ResponseEntity.ok(service.logar(request));
+    @GetMapping("/{id}")
+    public ResponseEntity<String> pegaUm(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok("achou");
     }
 }

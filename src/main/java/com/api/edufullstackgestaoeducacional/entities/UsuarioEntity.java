@@ -25,7 +25,8 @@ public class UsuarioEntity {
     @Column(unique = true)
     private String senha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "perfil_id")
     private PerfilEntity perfil;
 

@@ -6,4 +6,5 @@ public interface ColecaoService {
 
     UsuarioService getUsuarioService();
 
+    TokenService getTokenService();
 }

@@ -14,6 +14,8 @@ public interface UsuarioService {
 
     void setPerfilService(PerfilService perfilService);
 
+    void setTokenService(TokenService tokenService);
+
     ResponseLogin logar(RequestLogin dto) throws NotValidException;
 
     List<PerfilEntity> pegaTodos();
