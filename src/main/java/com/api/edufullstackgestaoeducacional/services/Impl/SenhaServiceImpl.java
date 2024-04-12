@@ -21,7 +21,7 @@ public class SenhaServiceImpl implements SenhaService {
     }
 
     @Override
-    public boolean comparaSenha(String senha, String senhaEncriptada) {
+    public boolean compararSenha(String senha, String senhaEncriptada) {
         return bCryptEncoder.matches(
                 senha,
                 senhaEncriptada

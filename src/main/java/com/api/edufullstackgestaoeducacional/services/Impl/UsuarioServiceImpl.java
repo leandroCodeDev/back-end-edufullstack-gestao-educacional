@@ -31,6 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Setter
     private PerfilService perfilService;
+
     public UsuarioServiceImpl(UsuarioRepository repository) {
         this.repository = repository;
     }
@@ -45,19 +46,22 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public ResponseNovoUsuario cadastrar(RequestNovoUsuario dto) {
+
+
+        loginExiste(dto.login());
+        UsuarioEntity user = new UsuarioEntity(dto);
+        user.setSenha(senhaService.encriptSenha(user.getSenha()));
+        repository.save(user);
+        user = pegaPeloLogin(user.getLogin());
+        return user.toResponseNovoUsuarioDto();
+    }
+
+    @Override
     public UsuarioEntity pegaUmUsuarioPeloLogin(String login) {
         return repository.findByLogin(login).orElseGet(() -> null);
     }
 
-    @Override
-    public ResponseNovoUsuario create(RequestNovoUsuario dto) {
-        loginExiste(dto.login());
-
-        UsuarioEntity user = new UsuarioEntity(dto);
-        user.setSenha(senhaService.encriptSenha(user.getSenha()));
-        user = repository.save(user);
-        return user.toResponseNovoUsuarioDto();
-    }
 
     @Override
     public List<PerfilEntity> pegaTodos() {
@@ -78,14 +82,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void validaSenha(Long id, String senha) {
         UsuarioEntity user = repository.findById(id).orElseThrow(() -> new UnauthorizedException("A validação Falhou", "Login ou senha incorreto"));
-        if (!senhaService.comparaSenha(senha, user.getSenha())) {
+        if (!senhaService.compararSenha(senha, user.getSenha())) {
             throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }
     }
 
     @Override
     public void validaSenha(String senha, String senhaEncriptada) {
-        if (!senhaService.comparaSenha(senha, senhaEncriptada)) {
+        if (!senhaService.compararSenha(senha, senhaEncriptada)) {
             throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }
     }
