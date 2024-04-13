@@ -3,6 +3,8 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAtualizaCurso;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarCurso;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaCurso;
+import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
+import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.CursoRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.ResponseAtualizaCurso;
@@ -22,7 +24,9 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public ResponseCriarCurso criarCurso(RequestCriarCurso dto) {
-        return null;
+        CursoEntity curso = repository.save(new CursoEntity(dto));
+        curso = repository.findById(curso.getId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        return curso.toResponseCriarCurso();
     }
 
     @Override

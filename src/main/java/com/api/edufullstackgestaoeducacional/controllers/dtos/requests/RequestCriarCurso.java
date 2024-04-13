@@ -1,4 +1,8 @@
 package com.api.edufullstackgestaoeducacional.controllers.dtos.requests;
 
-public record RequestCriarCurso() {
+import jakarta.validation.constraints.NotEmpty;
+
+public record RequestCriarCurso(
+        @NotEmpty(message = "O nome não pode ser vazio") String nome
+) {
 }

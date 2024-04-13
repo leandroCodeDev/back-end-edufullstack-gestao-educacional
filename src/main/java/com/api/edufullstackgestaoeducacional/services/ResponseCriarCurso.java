@@ -1,4 +1,4 @@
 package com.api.edufullstackgestaoeducacional.services;
 
-public record ResponseCriarCurso() {
+public record ResponseCriarCurso(Long id, String nome) {
 }
