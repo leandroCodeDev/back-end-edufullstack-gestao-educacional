@@ -4,7 +4,6 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestLo
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestNovoUsuario;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseLogin;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNovoUsuario;
-import com.api.edufullstackgestaoeducacional.entities.PerfilEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 
@@ -24,15 +23,13 @@ public interface UsuarioService {
     ResponseNovoUsuario cadastrar(RequestNovoUsuario dto);
 
 
-
-
-    List<PerfilEntity> pegaTodos();
+    List<UsuarioEntity> pegaTodos();
 
     UsuarioEntity pegaUmUsuarioPeloLogin(String login);
 
-    PerfilEntity pegaUm(Long id);
+    UsuarioEntity pegaUm(Long id);
 
-    PerfilEntity pegaUm(String perfil);
+    UsuarioEntity pegaUm(String perfil);
 
 
     void validaSenha(Long id, String senha);

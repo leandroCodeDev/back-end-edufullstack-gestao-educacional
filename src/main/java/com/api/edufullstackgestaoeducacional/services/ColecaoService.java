@@ -9,4 +9,6 @@ public interface ColecaoService {
     TokenService getTokenService();
 
     SenhaService getSenhaService();
+
+    DocenteService getDocenteService();
 }
