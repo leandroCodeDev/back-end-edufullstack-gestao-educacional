@@ -2,6 +2,9 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestMateria;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseMateria;
+import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
+import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
+import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.MateriaRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.MateriaService;
@@ -25,7 +28,16 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public ResponseMateria criarMateria(RequestMateria dto) {
-        return null;
+        CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId())
+                .orElseThrow(
+                        () -> new NotFoundException("Curso não encontrado")
+                );
+
+
+        MateriaEntity materia = new MateriaEntity(dto, curso);
+        repository.save(materia);
+        materia = repository.findById(materia.getId()).orElseThrow(() -> new NotFoundException("Materia não encontrado"));
+        return materia.toResponseMateria();
     }
 
     @Override

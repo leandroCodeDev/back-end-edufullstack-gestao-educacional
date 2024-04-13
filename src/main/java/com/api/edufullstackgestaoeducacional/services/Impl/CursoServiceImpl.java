@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -29,8 +30,13 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public ResponseCurso pegaCurso(Long id) {
-        CursoEntity curso = repository.findById(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        CursoEntity curso = pegaCursoEntity(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
         return curso.toResponseCurso();
+    }
+
+    @Override
+    public Optional<CursoEntity> pegaCursoEntity(Long id) {
+        return repository.findById(id);
     }
 
     @Override
