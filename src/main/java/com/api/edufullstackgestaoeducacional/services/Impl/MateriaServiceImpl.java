@@ -55,7 +55,17 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public ResponseMateria atualizaMateria(long id, RequestMateria dto) {
-        return null;
+        MateriaEntity materia = pegaMateriaEntity(id).orElseThrow(() -> new NotFoundException("Materia não encontrado"));
+        CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        if (!materia.getNome().equals(dto.nome())) {
+            materia.setNome(dto.nome());
+        }
+        if (materia.getCurso().getId() != curso.getId()) {
+            materia.setCurso(curso);
+        }
+        repository.save(materia);
+        materia = repository.findById(materia.getId()).orElseThrow(() -> new NotFoundException("Materia não encontrado"));
+        return materia.toResponseMateria();
     }
 
     @Override
