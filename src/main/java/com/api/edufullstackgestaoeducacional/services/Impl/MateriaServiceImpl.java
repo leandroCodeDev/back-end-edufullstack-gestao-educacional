@@ -70,7 +70,8 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public void deleteMateria(Long id) {
-
+        MateriaEntity materia = repository.findById(id).orElseThrow(() -> new NotFoundException("Materia não encontrado"));
+        repository.delete(materia);
     }
 
     @Override
