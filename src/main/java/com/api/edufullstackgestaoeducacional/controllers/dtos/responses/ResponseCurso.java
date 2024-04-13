@@ -1,4 +1,4 @@
 package com.api.edufullstackgestaoeducacional.controllers.dtos.responses;
 
-public class ResponsePegaCurso {
+public record ResponseCurso(Long id, String nome) {
 }

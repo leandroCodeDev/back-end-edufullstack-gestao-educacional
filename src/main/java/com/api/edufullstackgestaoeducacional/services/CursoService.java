@@ -1,22 +1,21 @@
 package com.api.edufullstackgestaoeducacional.services;
 
 
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAtualizaCurso;
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarCurso;
-import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCurso;
 
 import java.util.List;
 
 public interface CursoService {
 
 
-    ResponseCriarCurso criarCurso(RequestCriarCurso dto);
+    ResponseCurso criarCurso(RequestCurso dto);
 
-    ResponsePegaCurso pegaCurso(Long id);
+    ResponseCurso pegaCurso(Long id);
 
-    ResponseAtualizaCurso atualizaCurso(long id, RequestAtualizaCurso dto);
+    ResponseCurso atualizaCurso(long id, RequestCurso dto);
 
     void deleteCurso(Long id);
 
-    List<ResponsePegaCurso> pegaCurso();
+    List<ResponseCurso> pegaCurso();
 }

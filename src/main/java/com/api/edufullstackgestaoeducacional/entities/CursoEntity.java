@@ -1,7 +1,7 @@
 package com.api.edufullstackgestaoeducacional.entities;
 
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarCurso;
-import com.api.edufullstackgestaoeducacional.services.ResponseCriarCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCurso;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,11 +23,12 @@ public class CursoEntity {
     private String nome;
 
 
-    public CursoEntity(RequestCriarCurso dto) {
+    public CursoEntity(RequestCurso dto) {
         this.nome = dto.nome();
     }
 
-    public ResponseCriarCurso toResponseCriarCurso() {
-        return new ResponseCriarCurso(this.id, this.nome);
+
+    public ResponseCurso toResponseCurso() {
+        return new ResponseCurso(this.id, this.nome);
     }
 }

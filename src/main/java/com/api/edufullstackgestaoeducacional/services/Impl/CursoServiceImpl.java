@@ -1,14 +1,11 @@
 package com.api.edufullstackgestaoeducacional.services.Impl;
 
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAtualizaCurso;
-import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarCurso;
-import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCurso;
 import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.CursoRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
-import com.api.edufullstackgestaoeducacional.services.ResponseAtualizaCurso;
-import com.api.edufullstackgestaoeducacional.services.ResponseCriarCurso;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +20,26 @@ public class CursoServiceImpl implements CursoService {
 
 
     @Override
-    public ResponseCriarCurso criarCurso(RequestCriarCurso dto) {
+    public ResponseCurso criarCurso(RequestCurso dto) {
         CursoEntity curso = repository.save(new CursoEntity(dto));
         curso = repository.findById(curso.getId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
-        return curso.toResponseCriarCurso();
+        return curso.toResponseCurso();
     }
 
     @Override
-    public ResponsePegaCurso pegaCurso(Long id) {
-        return null;
+    public ResponseCurso pegaCurso(Long id) {
+        CursoEntity curso = repository.findById(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        return curso.toResponseCurso();
     }
 
     @Override
-    public ResponseAtualizaCurso atualizaCurso(long id, RequestAtualizaCurso dto) {
-        return null;
+    public ResponseCurso atualizaCurso(long id, RequestCurso dto) {
+        CursoEntity curso = repository.findById(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        if (!curso.getNome().equals(dto.nome())) {
+            curso.setNome(dto.nome());
+        }
+        repository.save(curso);
+        return curso.toResponseCurso();
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
-    public List<ResponsePegaCurso> pegaCurso() {
+    public List<ResponseCurso> pegaCurso() {
         return List.of();
     }
 }
