@@ -28,6 +28,6 @@ public class CursoController {
             @RequestBody @Valid RequestCriarCurso request) {
 
         this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.criarCurso(request));
+        return ResponseEntity.status(201).body(service.criarCurso(request));
     }
 }
