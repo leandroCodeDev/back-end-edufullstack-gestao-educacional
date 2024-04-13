@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -42,8 +43,15 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public ResponseMateria pegaMateria(Long id) {
-        return null;
+        MateriaEntity materia = pegaMateriaEntity(id).orElseThrow(() -> new NotFoundException("Materia não encontrado"));
+        return materia.toResponseMateria();
     }
+
+    @Override
+    public Optional<MateriaEntity> pegaMateriaEntity(Long id) {
+        return repository.findById(id);
+    }
+
 
     @Override
     public ResponseMateria atualizaMateria(long id, RequestMateria dto) {
