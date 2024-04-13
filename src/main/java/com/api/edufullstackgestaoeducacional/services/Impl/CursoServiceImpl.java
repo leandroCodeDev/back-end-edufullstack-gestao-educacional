@@ -2,7 +2,9 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCurso;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseMateria;
 import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
+import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.CursoRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
@@ -62,6 +64,18 @@ public class CursoServiceImpl implements CursoService {
             throw new NotFoundException("Não há Cursos cadastrados.");
         }
         return cursos.stream().map(CursoEntity::toResponseCurso)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResponseMateria> pegaMateriasdoCurso(Long id) {
+        CursoEntity curso = pegaCursoEntity(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        List<MateriaEntity> materias = curso.getMaterias();
+        if (materias.size() <= 0) {
+            throw new NotFoundException("Não há matérias cadastradas para o curso especificado.");
+        }
+
+        return materias.stream().map(MateriaEntity::toResponseMateria)
                 .collect(Collectors.toList());
     }
 }

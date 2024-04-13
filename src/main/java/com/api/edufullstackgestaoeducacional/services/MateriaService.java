@@ -5,7 +5,6 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestMa
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseMateria;
 import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface MateriaService {
@@ -23,8 +22,6 @@ public interface MateriaService {
     ResponseMateria atualizaMateria(long id, RequestMateria dto);
 
     void deleteMateria(Long id);
-
-    List<ResponseMateria> pegaMaterias();
 
 
 }

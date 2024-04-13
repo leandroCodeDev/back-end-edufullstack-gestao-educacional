@@ -9,8 +9,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/materias")
 public class MateriaController {
@@ -53,14 +51,6 @@ public class MateriaController {
 
         this.tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaMateria(id));
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<ResponseMateria>> pegaMaterias(
-            @RequestHeader(name = "Authorization") String token) {
-
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaMaterias());
     }
 
     @DeleteMapping("/{id}")

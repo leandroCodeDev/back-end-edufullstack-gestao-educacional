@@ -11,7 +11,6 @@ import com.api.edufullstackgestaoeducacional.services.MateriaService;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -74,8 +73,4 @@ public class MateriaServiceImpl implements MateriaService {
         repository.delete(materia);
     }
 
-    @Override
-    public List<ResponseMateria> pegaMaterias() {
-        return List.of();
-    }
 }
