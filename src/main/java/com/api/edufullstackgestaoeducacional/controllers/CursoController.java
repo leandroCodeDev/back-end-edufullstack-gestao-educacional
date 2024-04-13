@@ -2,6 +2,7 @@ package com.api.edufullstackgestaoeducacional.controllers;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCurso;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCurso;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseMateria;
 import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
@@ -52,6 +53,15 @@ public class CursoController {
 
         this.tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaCurso(id));
+    }
+
+    @GetMapping("/{id}/materias")
+    public ResponseEntity<List<ResponseMateria>> pegaMateriasCurso(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable(name = "id") Long id) {
+
+        this.tokenService.validateAdmin(token);
+        return ResponseEntity.ok(service.pegaMateriasdoCurso(id));
     }
 
     @GetMapping("")

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @Entity
@@ -21,6 +23,9 @@ public class CursoEntity {
 
     @Column(nullable = false)
     private String nome;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<MateriaEntity> materias;
 
 
     public CursoEntity(RequestCurso dto) {
