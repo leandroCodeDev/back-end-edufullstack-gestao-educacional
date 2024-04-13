@@ -2,6 +2,7 @@ package com.api.edufullstackgestaoeducacional.entities;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,5 +57,9 @@ public class DocenteEntity {
 
     public ResponseCriarDocente toResponseCriarDocente() {
         return new ResponseCriarDocente(this.id, this.nome, this.dataEntrada, this.usuario.getId());
+    }
+
+    public ResponsePegaDocente toResponsePegaDocente() {
+        return new ResponsePegaDocente(this.id, this.nome, this.usuario.getId());
     }
 }

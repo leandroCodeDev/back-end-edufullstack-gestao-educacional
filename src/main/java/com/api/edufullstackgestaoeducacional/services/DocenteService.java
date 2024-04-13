@@ -3,7 +3,7 @@ package com.api.edufullstackgestaoeducacional.services;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
-import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 
 public interface DocenteService {
 
@@ -14,6 +14,6 @@ public interface DocenteService {
 
     ResponseCriarDocente criarDocente(RequestCriarDocente dto);
 
+    ResponsePegaDocente pegaDocente(Long id);
 
-    DocenteEntity pegaUm(Long id);
 }

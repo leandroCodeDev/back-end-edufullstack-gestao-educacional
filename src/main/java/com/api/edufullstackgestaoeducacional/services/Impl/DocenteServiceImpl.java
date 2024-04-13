@@ -2,8 +2,10 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
+import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 import com.api.edufullstackgestaoeducacional.repositories.DocenteRepository;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
@@ -35,14 +37,14 @@ public class DocenteServiceImpl implements DocenteService {
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         exiteUsuario(user.getId());
         DocenteEntity docente = repository.save(new DocenteEntity(dto, user));
-        docente = pegaUm(docente.getId());
+        docente = repository.findById(docente.getId()).orElseThrow(() -> new NotValidException("A validação falhou!", "Docente não encontrado"));
         return docente.toResponseCriarDocente();
     }
 
-
     @Override
-    public DocenteEntity pegaUm(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotValidException("A validação falhou!", "Docente não encontrado"));
+    public ResponsePegaDocente pegaDocente(Long id) {
+        DocenteEntity docente = repository.findById(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+        return docente.toResponsePegaDocente();
     }
 
 
