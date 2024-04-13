@@ -15,6 +15,7 @@ public class ColecaoServiceImpl implements ColecaoService {
     private final TokenService tokenService;
     private final SenhaService senhaService;
     private final DocenteService docenteService;
+    private final CursoService cursoService;
 
 
 }

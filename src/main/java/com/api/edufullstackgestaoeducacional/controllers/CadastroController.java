@@ -30,6 +30,6 @@ public class CadastroController {
 
         this.tokenService.validateAdmin(token);
 
-        return ResponseEntity.ok(service.cadastrar(request));
+        return ResponseEntity.status(201).body(service.cadastrar(request));
     }
 }

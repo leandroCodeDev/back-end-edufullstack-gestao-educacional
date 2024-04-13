@@ -11,4 +11,6 @@ public interface ColecaoService {
     SenhaService getSenhaService();
 
     DocenteService getDocenteService();
+
+    CursoService getCursoService();
 }
