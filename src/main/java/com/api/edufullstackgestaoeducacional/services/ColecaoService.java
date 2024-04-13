@@ -15,4 +15,6 @@ public interface ColecaoService {
     CursoService getCursoService();
 
     MateriaService getMateriaService();
+
+    TurmaService getTurmaService();
 }
