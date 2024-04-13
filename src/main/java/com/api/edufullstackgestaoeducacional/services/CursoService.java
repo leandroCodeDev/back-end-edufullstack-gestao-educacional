@@ -17,5 +17,7 @@ public interface CursoService {
 
     void deleteCurso(Long id);
 
-    List<ResponseCurso> pegaCurso();
+    List<ResponseCurso> pegaCursos();
+
+
 }

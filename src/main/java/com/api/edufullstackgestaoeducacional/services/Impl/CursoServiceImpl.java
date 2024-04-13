@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,11 +45,17 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public void deleteCurso(Long id) {
-
+        CursoEntity curso = repository.findById(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        repository.delete(curso);
     }
 
     @Override
-    public List<ResponseCurso> pegaCurso() {
-        return List.of();
+    public List<ResponseCurso> pegaCursos() {
+        List<CursoEntity> cursos = repository.findAll();
+        if (cursos.size() <= 0) {
+            throw new NotFoundException("Não há Cursos cadastrados.");
+        }
+        return cursos.stream().map(CursoEntity::toResponseCurso)
+                .collect(Collectors.toList());
     }
 }

@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cursos")
 public class CursoController {
@@ -50,5 +52,23 @@ public class CursoController {
 
         this.tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaCurso(id));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<ResponseCurso>> pegaCursos(
+            @RequestHeader(name = "Authorization") String token) {
+
+        this.tokenService.validateAdmin(token);
+        return ResponseEntity.ok(service.pegaCursos());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCurso(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable(name = "id") Long id) {
+
+        this.tokenService.validateAdmin(token);
+        service.deleteCurso(id);
+        return ResponseEntity.status(204).build();
     }
 }
