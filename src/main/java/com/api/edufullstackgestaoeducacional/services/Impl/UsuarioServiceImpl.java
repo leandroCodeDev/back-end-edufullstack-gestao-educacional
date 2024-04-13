@@ -4,7 +4,6 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestLo
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestNovoUsuario;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseLogin;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNovoUsuario;
-import com.api.edufullstackgestaoeducacional.entities.PerfilEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository repository;
 
@@ -63,21 +61,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 
-    @Override
-    public List<PerfilEntity> pegaTodos() {
-        return List.of();
-    }
-
-    @Override
-    public PerfilEntity pegaUm(Long id) {
-        return null;
-    }
-
-    @Override
-    public PerfilEntity pegaUm(String perfil) {
-        return null;
-    }
-
 
     @Override
     public void validaSenha(Long id, String senha) {
@@ -92,6 +75,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (!senhaService.compararSenha(senha, senhaEncriptada)) {
             throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }
+    }
+
+
+    @Override
+    public List<UsuarioEntity> pegaTodos() {
+        return List.of();
+    }
+
+    @Override
+    public UsuarioEntity pegaUm(Long id) {
+        return null;
+    }
+
+    @Override
+    public UsuarioEntity pegaUm(String perfil) {
+        return null;
     }
 
     private UsuarioEntity pegaPeloLogin(String login) {
