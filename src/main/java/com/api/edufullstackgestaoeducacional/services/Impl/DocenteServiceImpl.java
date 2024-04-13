@@ -17,7 +17,9 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -90,6 +92,16 @@ public class DocenteServiceImpl implements DocenteService {
         return docente.toResponsePegaDocente();
     }
 
+    @Override
+    public List<ResponsePegaDocente> pegaDocentes() {
+        List<DocenteEntity> docentes = repository.findAll();
+        if (docentes.size() <= 0) {
+            throw new NotFoundException("Não há docentes cadastrados.");
+        }
+        return docentes.stream()
+                .map(docente -> docente.toResponsePegaDocente())
+                .collect(Collectors.toList());
+    }
 
     @Override
     public void deleteDocente(Long id) {

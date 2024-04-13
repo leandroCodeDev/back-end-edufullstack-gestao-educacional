@@ -12,6 +12,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/docentes")
 public class DocenteController {
@@ -54,6 +56,15 @@ public class DocenteController {
     ) {
         tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaDocente(id));
+    }
+
+
+    @GetMapping()
+    public ResponseEntity<List<ResponsePegaDocente>> pegaDocente(
+            @RequestHeader(name = "Authorization") String token
+    ) {
+        tokenService.validateAdmin(token);
+        return ResponseEntity.ok(service.pegaDocentes());
     }
 
     @DeleteMapping("/{id}")

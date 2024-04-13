@@ -7,6 +7,8 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.Response
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 
+import java.util.List;
+
 public interface DocenteService {
 
 
@@ -21,4 +23,7 @@ public interface DocenteService {
     ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto);
 
     void deleteDocente(Long id);
+
+
+    List<ResponsePegaDocente> pegaDocentes();
 }
