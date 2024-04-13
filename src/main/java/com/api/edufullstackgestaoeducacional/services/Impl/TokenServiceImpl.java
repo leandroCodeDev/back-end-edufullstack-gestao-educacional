@@ -41,8 +41,6 @@ public class TokenServiceImpl implements TokenService {
                         JwtEncoderParameters.from(claims) // parametros para encode do token
                 ) // token foi criado, porém está em uma classe que não tem o token puro, ele o token e várias coisas a mais
                 .getTokenValue(); // corpo de resposta é um objeto de LoginResponse
-
-
     }
 
 

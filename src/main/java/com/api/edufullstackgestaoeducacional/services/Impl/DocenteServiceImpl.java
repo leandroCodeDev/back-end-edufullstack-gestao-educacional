@@ -88,8 +88,13 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public ResponsePegaDocente pegaDocente(Long id) {
-        DocenteEntity docente = repository.findById(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+        DocenteEntity docente = pegaDocenteEntity(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
         return docente.toResponsePegaDocente();
+    }
+
+    @Override
+    public Optional<DocenteEntity> pegaDocenteEntity(Long id) {
+        return repository.findById(id);
     }
 
     @Override

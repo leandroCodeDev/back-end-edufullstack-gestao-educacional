@@ -2,8 +2,10 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestTurma;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseTurma;
+import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
+import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 import com.api.edufullstackgestaoeducacional.entities.TurmaEntity;
-import com.api.edufullstackgestaoeducacional.repositories.CursoRepository;
+import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.TurmaRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
@@ -32,7 +34,18 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public ResponseTurma criarTurma(RequestTurma dto) {
-        return null;
+
+        CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+        DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+
+        if (!docente.getUsuario().getPerfil().getNome().equals("PROFESSOR")) {
+            throw new NotFoundException("O Docente não tem papel de Professor");
+        }
+
+        TurmaEntity turma = new TurmaEntity(dto, curso, docente);
+        turma = repository.save(turma);
+        turma = repository.findById(turma.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        return turma.toResponseTurma();
     }
 
     @Override

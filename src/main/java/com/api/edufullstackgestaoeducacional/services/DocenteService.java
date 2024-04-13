@@ -6,8 +6,10 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCr
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAtualizaDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
+import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DocenteService {
 
@@ -19,6 +21,8 @@ public interface DocenteService {
     ResponseCriarDocente criarDocente(RequestCriarDocente dto);
 
     ResponsePegaDocente pegaDocente(Long id);
+
+    Optional<DocenteEntity> pegaDocenteEntity(Long id);
 
     ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto);
 
