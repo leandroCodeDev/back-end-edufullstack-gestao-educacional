@@ -19,4 +19,6 @@ public interface DocenteService {
     ResponsePegaDocente pegaDocente(Long id);
 
     ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto);
+
+    void deleteDocente(Long id);
 }

@@ -91,6 +91,12 @@ public class DocenteServiceImpl implements DocenteService {
     }
 
 
+    @Override
+    public void deleteDocente(Long id) {
+        DocenteEntity docente = repository.findById(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+        repository.delete(docente);
+    }
+
     private void exiteUsuario(Long id) {
         if (repository.findByUsuarioId(id).isPresent()) {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a um docente!");

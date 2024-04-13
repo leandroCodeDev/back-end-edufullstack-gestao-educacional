@@ -56,4 +56,14 @@ public class DocenteController {
         return ResponseEntity.ok(service.pegaDocente(id));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletDocente(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable(name = "id") long id
+    ) {
+        tokenService.validateAdmin(token);
+        service.deleteDocente(id);
+        return ResponseEntity.status(204).build();
+    }
+
 }
