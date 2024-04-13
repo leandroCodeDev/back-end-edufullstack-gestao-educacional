@@ -1,7 +1,9 @@
 package com.api.edufullstackgestaoeducacional.services;
 
 
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAtualizaDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarDocente;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAtualizaDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 
@@ -16,4 +18,5 @@ public interface DocenteService {
 
     ResponsePegaDocente pegaDocente(Long id);
 
+    ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto);
 }

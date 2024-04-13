@@ -1,6 +1,8 @@
 package com.api.edufullstackgestaoeducacional.controllers;
 
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAtualizaDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriarDocente;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAtualizaDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseCriarDocente;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePegaDocente;
 import com.api.edufullstackgestaoeducacional.services.ColecaoService;
@@ -35,6 +37,16 @@ public class DocenteController {
         return ResponseEntity.status(201).body(service.criarDocente(dto));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseAtualizaDocente> atualizaDocente(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable(name = "id") long id,
+            @RequestBody @Valid RequestAtualizaDocente dto
+    ) {
+        tokenService.validateAdmin(token);
+        return ResponseEntity.ok(service.atualizaDocente(id, dto));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponsePegaDocente> pegaDocente(
             @RequestHeader(name = "Authorization") String token,
@@ -43,4 +55,5 @@ public class DocenteController {
         tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaDocente(id));
     }
+
 }
