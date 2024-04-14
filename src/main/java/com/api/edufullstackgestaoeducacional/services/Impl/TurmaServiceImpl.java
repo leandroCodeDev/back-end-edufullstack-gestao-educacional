@@ -90,7 +90,8 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public void deleteTurma(Long id) {
-
+        TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        repository.delete(turma);
     }
 
     @Override
