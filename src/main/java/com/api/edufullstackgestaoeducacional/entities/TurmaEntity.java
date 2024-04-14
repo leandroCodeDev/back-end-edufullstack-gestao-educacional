@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Data
 @Entity
 @Table(name = "turma")
@@ -32,12 +33,14 @@ public class TurmaEntity {
     private CursoEntity curso;
 
     public TurmaEntity(RequestTurma dto, CursoEntity curso, DocenteEntity docente) {
+        log.info("cria nova entidade de turma");
         this.nome = dto.nome();
         this.curso = curso;
         this.docente = docente;
     }
 
     public ResponseTurma toResponseTurma() {
+        log.info("cria novo DTO de turma");
         return new ResponseTurma(id, nome);
     }
 }

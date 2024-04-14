@@ -12,12 +12,14 @@ import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 
 @Service
 @AllArgsConstructor
@@ -29,6 +31,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public ResponseCurso criarCurso(RequestCurso dto, String token) {
+        log.info("cria curso");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -40,6 +43,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public ResponseCurso pegaCurso(Long id, String token) {
+        log.info("pega curso");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -50,11 +54,14 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public Optional<CursoEntity> pegaCursoEntity(Long id) {
+
+        log.info("pega entity curso");
         return repository.findById(id);
     }
 
     @Override
     public ResponseCurso atualizaCurso(long id, RequestCurso dto, String token) {
+        log.info("atualiza curso");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -69,12 +76,14 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public void deleteCurso(Long id) {
+        log.info("delete curso");
         CursoEntity curso = repository.findById(id).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
         repository.delete(curso);
     }
 
     @Override
     public List<ResponseCurso> pegaCursos(String token) {
+        log.info("pega cursos");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -89,6 +98,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public List<ResponseMateria> pegaMateriasdoCurso(Long id, String token) {
+        log.info("pega materias de curso");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");

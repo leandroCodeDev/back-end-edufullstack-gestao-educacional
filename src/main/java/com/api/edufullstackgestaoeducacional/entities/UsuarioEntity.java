@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Data
 @Entity
 @Table(name = "usuario")
@@ -32,11 +34,13 @@ public class UsuarioEntity {
 
 
     public UsuarioEntity(RequestLogin dto) {
+        log.info("cria nova entidade de usuario");
         this.login = dto.login();
         this.senha = dto.senha();
     }
 
     public UsuarioEntity(RequestNovoUsuario dto) {
+        log.info("cria nova entidade de usuario");
         this.login = dto.login();
         this.senha = dto.senha();
         this.perfil = new PerfilEntity(dto.perfilId());
@@ -44,6 +48,7 @@ public class UsuarioEntity {
 
 
     public ResponseNovoUsuario toResponseNovoUsuarioDto() {
+        log.info("cria novo DTO de usuario");
         return new ResponseNovoUsuario(this.id, this.login, this.perfil.getNome());
     }
 

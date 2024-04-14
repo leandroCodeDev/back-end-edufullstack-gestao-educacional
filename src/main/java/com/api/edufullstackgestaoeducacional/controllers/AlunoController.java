@@ -9,6 +9,7 @@ import com.api.edufullstackgestaoeducacional.services.AlunoService;
 import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/alunos")
+@Slf4j
 public class AlunoController {
 
     private final AlunoService service;
@@ -37,7 +39,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCriaAluno dto
     ) {
-
+        log.info("Chamou metodo post de criar aluno");
         return ResponseEntity.status(201).body(service.criarAluno(dto, token));
     }
 
@@ -47,7 +49,7 @@ public class AlunoController {
             @PathVariable(name = "id") long id,
             @RequestBody @Valid RequestAluno dto
     ) {
-
+        log.info("Chamou metodo put de atualizar aluno");
         return ResponseEntity.ok(service.atualizaAluno(id, dto, token));
     }
 
@@ -56,7 +58,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-
+        log.info("Chamou metodo get de para pegar o aluno pelo id");
         return ResponseEntity.ok(service.pegaAluno(id, token));
     }
 
@@ -66,7 +68,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-
+        log.info("Chamou metodo get de para pegar as notas de aluno pelo id");
         return ResponseEntity.ok(service.pegaNotasAluno(id, token));
     }
 
@@ -75,7 +77,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-
+        log.info("Chamou metodo get de para pegar a pontuação de aluno pelo id");
         return ResponseEntity.ok(service.pegaPontuacaoAluno(id, token));
     }
 
@@ -83,7 +85,7 @@ public class AlunoController {
     public ResponseEntity<List<ResponseAluno>> pegaAluno(
             @RequestHeader(name = "Authorization") String token
     ) {
-
+        log.info("Chamou metodo get de para pegar os alunos");
         return ResponseEntity.ok(service.pegaAlunos(token));
     }
 
@@ -92,6 +94,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
+        log.info("Chamou metodo delete de para deletar o aluno pelo id");
         tokenService.validateAdmin(token);
         service.deleteAluno(id);
         return ResponseEntity.status(204).build();

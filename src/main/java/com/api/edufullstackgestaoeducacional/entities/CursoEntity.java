@@ -6,10 +6,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-
+@Slf4j
 @Data
 @Entity
 @Table(name = "curso")
@@ -29,11 +30,13 @@ public class CursoEntity {
 
 
     public CursoEntity(RequestCurso dto) {
+        log.info("cria nova entidade de curso");
         this.nome = dto.nome();
     }
 
 
     public ResponseCurso toResponseCurso() {
+        log.info("cria novo DTO de curso");
         return new ResponseCurso(this.id, this.nome);
     }
 }

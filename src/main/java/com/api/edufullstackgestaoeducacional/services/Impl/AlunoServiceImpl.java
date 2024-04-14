@@ -19,6 +19,7 @@ import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 
 @Service
 public class AlunoServiceImpl implements AlunoService {
@@ -42,12 +44,14 @@ public class AlunoServiceImpl implements AlunoService {
     private TokenService tokenService;
 
     public AlunoServiceImpl(AlunoRepository repository) {
+        log.info("cria service de aluno");
         this.repository = repository;
     }
 
 
     @Override
     public ResponseAluno criarAluno(RequestCriaAluno dto, String token) {
+        log.info("cria aluno");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -73,6 +77,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public ResponseAluno pegaAluno(Long id, String token) {
+        log.info("pega aluno");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -83,11 +88,13 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Optional<AlunoEntity> pegaAlunoEntity(Long id) {
+        log.info("pega entity aluno");
         return repository.findById(id);
     }
 
     @Override
     public ResponseAluno atualizaAluno(long id, RequestAluno dto, String token) {
+        log.info("atualiza aluno");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -130,12 +137,14 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public void deleteAluno(Long id) {
+        log.info("delete aluno");
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         repository.delete(aluno);
     }
 
     @Override
     public List<ResponseAluno> pegaAlunos(String token) {
+        log.info("pega alunos");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -152,6 +161,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public List<ResponseNota> pegaNotasAluno(long id, String token) {
+        log.info("pega notas de aluno");
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
         if (
@@ -176,6 +186,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public ResponsePontuacao pegaPontuacaoAluno(long id, String token) {
+        log.info("pega pontuação de aluno");
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
         if (
@@ -206,12 +217,14 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     private void exiteUsuario(Long id) {
+        log.info("existe usuario");
         if (repository.findByUsuarioId(id).isPresent()) {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a outro aluno!");
         }
     }
 
     private void exiteUsuario(Long idAluno, Long idUsuario) {
+        log.info("existe usuario");
         Optional<AlunoEntity> aluno = repository.findByUsuarioId(idUsuario);
         if (aluno.isPresent() && aluno.get().getId() != idAluno) {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a outro aluno!");

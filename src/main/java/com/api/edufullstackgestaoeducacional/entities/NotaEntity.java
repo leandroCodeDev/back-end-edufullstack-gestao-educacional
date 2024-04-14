@@ -6,11 +6,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
 
-
+@Slf4j
 @Data
 @Entity
 @Table(name = "nota")
@@ -50,6 +51,7 @@ public class NotaEntity {
 
     @PrePersist
     public void prePersist() {
+        log.info("popular data antes de inserir o registro na tabela");
         // Define a data atual se a data de empréstimo for nula
         if (data == null) {
             data = new Date();
@@ -57,6 +59,7 @@ public class NotaEntity {
     }
 
     public ResponseNota toResponseNota() {
+        log.info("cria novo DTO de nota");
         return new ResponseNota(id, valor, data);
     }
 }

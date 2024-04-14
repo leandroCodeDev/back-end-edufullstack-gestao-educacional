@@ -7,6 +7,7 @@ import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cursos")
+@Slf4j
+
 public class CursoController {
 
     private final CursoService service;
@@ -32,7 +35,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCurso request) {
 
-
+        log.info("Chamou metodo post para criar um curso");
         return ResponseEntity.status(201).body(service.criarCurso(request, token));
     }
 
@@ -44,7 +47,7 @@ public class CursoController {
             @RequestBody @Valid RequestCurso dto
     ) {
 
-
+        log.info("Chamou metodo put para atualizar um curso");
         return ResponseEntity.ok(service.atualizaCurso(id, dto, token));
     }
 
@@ -53,7 +56,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-
+        log.info("Chamou metodo get para pegar um curso pelo id");
         return ResponseEntity.ok(service.pegaCurso(id, token));
     }
 
@@ -62,7 +65,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-
+        log.info("Chamou metodo get para pegar as materias de um curso");
         return ResponseEntity.ok(service.pegaMateriasdoCurso(id, token));
     }
 
@@ -70,6 +73,7 @@ public class CursoController {
     public ResponseEntity<List<ResponseCurso>> pegaCursos(
             @RequestHeader(name = "Authorization") String token) {
 
+        log.info("Chamou metodo get para pegar os cursos");
 
         return ResponseEntity.ok(service.pegaCursos(token));
     }
@@ -78,6 +82,8 @@ public class CursoController {
     public ResponseEntity<Void> deleteCurso(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
+
+        log.info("Chamou metodo delete para remover um curso");
 
         this.tokenService.validateAdmin(token);
         service.deleteCurso(id);

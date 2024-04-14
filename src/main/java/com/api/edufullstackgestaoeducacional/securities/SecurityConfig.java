@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+
+
+@Slf4j
 
 @Configuration //indica uma classe de configuração do Spring,
 // essa classe irá conter @Bean -> é uma classe criada apenas uma vez dentro do spring
@@ -49,7 +53,7 @@ public class SecurityConfig {
     // criação de uma classe
     // classe que representa os filtros do Spring Security
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+        log.info("configuração de segurança");
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll() // permite os endpoints que tenham o texto que condiz com /login
@@ -76,6 +80,7 @@ public class SecurityConfig {
     @Bean
         // Configuração / Criação de uma Classe de configuração que o Spring Security irá usar
     JwtDecoder jwtDecoder() {
+        log.info("Criação de uma Classe de configuração que o Spring Security irá usar");
         return NimbusJwtDecoder
                 .withPublicKey(this.key)
                 .build(); //Crie uma classe decodificador que usa a chave publica
@@ -84,7 +89,7 @@ public class SecurityConfig {
     @Bean
         // Configuração / Criação de uma Classe de configuração que o Spring Security irá usar
     JwtEncoder jwtEncoder() {
-
+        log.info("Criação de uma Classe de configuração que o Spring Security irá usar");
         JWK jwk = new RSAKey.Builder(this.key)
                 .privateKey(this.priv)
                 .build(); // crie um objeto JWK com o campo privateKey
@@ -100,6 +105,7 @@ public class SecurityConfig {
     @Bean // Configuração para as senhas
     // Vai ser usado para encriptar as senhas antes de salvá-las no banco de dados
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        log.info("Configuração para as senhas");
         return new BCryptPasswordEncoder(); // codifica, ou criptografar, senhas com o software BCrypt
     }
 

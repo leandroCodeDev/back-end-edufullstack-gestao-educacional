@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Data
 @Entity
 @Table(name = "perfil")
@@ -21,10 +23,12 @@ public class PerfilEntity {
 
 
     public PerfilEntity(String nome) {
+        log.info("cria nova entidade de materia");
         this.nome = nome;
     }
 
     public PerfilEntity(Long id) {
+        log.info("cria nova entidade de perfil");
         this.id = id;
     }
 }

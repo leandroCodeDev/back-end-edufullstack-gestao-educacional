@@ -15,6 +15,7 @@ import com.api.edufullstackgestaoeducacional.services.DocenteService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 
 @Service
 public class DocenteServiceImpl implements DocenteService {
@@ -36,12 +38,14 @@ public class DocenteServiceImpl implements DocenteService {
 
 
     public DocenteServiceImpl(DocenteRepository repository) {
+        log.info("cria service de docente");
         this.repository = repository;
     }
 
 
     @Override
     public ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto, String token) {
+        log.info("atualiza docente");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -84,6 +88,7 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public ResponseCriarDocente criarDocente(RequestCriarDocente dto, String token) {
+        log.info("cria docente");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -106,6 +111,7 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public ResponsePegaDocente pegaDocente(Long id, String token) {
+        log.info("pega docente");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -122,11 +128,13 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public Optional<DocenteEntity> pegaDocenteEntity(Long id) {
+        log.info("cria entity docente");
         return repository.findById(id);
     }
 
     @Override
     public List<ResponsePegaDocente> pegaDocentes(String token) {
+        log.info("pega docentes");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -151,11 +159,13 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public void deleteDocente(Long id) {
+        log.info("deleta docente");
         DocenteEntity docente = repository.findById(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
         repository.delete(docente);
     }
 
     private void exiteUsuario(Long id) {
+        log.info("valida se existe o usuario");
         if (repository.findByUsuarioId(id).isPresent()) {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a um docente!");
         }
@@ -163,6 +173,7 @@ public class DocenteServiceImpl implements DocenteService {
 
 
     private void exiteUsuario(Long idDocente, Long idUsuario) {
+        log.info("valida se existe o usuario");
         Optional<DocenteEntity> docente = repository.findByUsuarioId(idUsuario);
         if (docente.isPresent() && docente.get().getId() != idDocente) {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a outro docente!");
