@@ -18,6 +18,7 @@ public class ColecaoServiceImpl implements ColecaoService {
     private final CursoService cursoService;
     private final MateriaService materiaService;
     private final TurmaService turmaService;
+    private final AlunoService alunoService;
 
 
 }

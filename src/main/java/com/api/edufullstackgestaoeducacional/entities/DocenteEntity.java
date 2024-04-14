@@ -33,7 +33,7 @@ public class DocenteEntity {
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date dataEntrada;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", unique = true)
     private UsuarioEntity usuario;
 
