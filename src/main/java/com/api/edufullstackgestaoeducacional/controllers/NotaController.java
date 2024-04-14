@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cursos")
+@RequestMapping("/notas")
 public class NotaController {
 
     private final NotaService service;
@@ -19,7 +19,9 @@ public class NotaController {
     public NotaController(ColecaoService colecao) {
         this.service = colecao.getNotaService();
         this.tokenService = colecao.getTokenService();
-
+        this.service.setAlunoService(colecao.getAlunoService());
+        this.service.setDocenteService(colecao.getDocenteService());
+        this.service.setMateriaService(colecao.getMateriaService());
     }
 
     @PostMapping()

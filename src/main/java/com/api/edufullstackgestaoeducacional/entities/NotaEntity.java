@@ -1,5 +1,7 @@
 package com.api.edufullstackgestaoeducacional.entities;
 
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestNota;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNota;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,16 +29,34 @@ public class NotaEntity {
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date data;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "aluno_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "aluno_id", unique = false)
     private AlunoEntity aluno;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "docente_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "docente_id", unique = false)
     private DocenteEntity docente;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "materia_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "materia_id", unique = false)
     private MateriaEntity materia;
 
+    public NotaEntity(RequestNota dto, DocenteEntity docente, MateriaEntity materia, AlunoEntity aluno) {
+        this.valor = dto.valor();
+        this.docente = docente;
+        this.materia = materia;
+        this.aluno = aluno;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        // Define a data atual se a data de empréstimo for nula
+        if (data == null) {
+            data = new Date();
+        }
+    }
+
+    public ResponseNota toResponseNota() {
+        return new ResponseNota(id, valor, data);
+    }
 }
