@@ -1,7 +1,9 @@
 package com.api.edufullstackgestaoeducacional.exception.erros;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 public class NotFoundException extends RuntimeException {
     private ErrorResponse errorResponse;
@@ -11,6 +13,7 @@ public class NotFoundException extends RuntimeException {
 
     public NotFoundException(String message) {
         super(message);
+        log.info("cria novo NotFoundException");
     }
 
     public NotFoundException(String message, Throwable cause) {

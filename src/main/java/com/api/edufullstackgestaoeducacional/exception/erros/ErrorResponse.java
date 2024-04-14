@@ -2,9 +2,12 @@ package com.api.edufullstackgestaoeducacional.exception.erros;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+
+@Slf4j
 @Data
 @NoArgsConstructor
 public class ErrorResponse {
@@ -16,6 +19,7 @@ public class ErrorResponse {
 
     public ErrorResponse(String message, List<String> errors) {
         super();
+        log.info("cria class de erroResponse");
         this.message = message;
         this.errors = errors;
     }

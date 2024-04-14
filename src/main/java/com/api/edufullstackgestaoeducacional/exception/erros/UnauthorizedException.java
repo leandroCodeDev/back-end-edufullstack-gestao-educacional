@@ -1,9 +1,11 @@
 package com.api.edufullstackgestaoeducacional.exception.erros;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 @Getter
 public class UnauthorizedException extends RuntimeException {
     private ErrorResponse errorResponse;
@@ -16,6 +18,7 @@ public class UnauthorizedException extends RuntimeException {
     }
 
     public UnauthorizedException(String message, String error) {
+        log.info("cria novo UnauthorizedException");
         this.errorResponse = new ErrorResponse(message, List.of(error));
 
     }

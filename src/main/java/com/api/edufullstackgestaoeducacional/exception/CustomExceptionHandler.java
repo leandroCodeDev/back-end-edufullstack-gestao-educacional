@@ -4,6 +4,7 @@ import com.api.edufullstackgestaoeducacional.exception.erros.ErrorResponse;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
 import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +23,7 @@ import java.util.List;
 /**
  * Classe que lida com exceções globais na aplicação.
  */
+@Slf4j
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -38,6 +40,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
+        log.info("Intercepta erro MethodArgumentNotValid");
         // Lista para armazenar os erros de validação
         List<String> errors = new ArrayList<>();
 
@@ -55,16 +58,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotValidException.class)
     public ResponseEntity<Object> handler(NotValidException e) {
+        log.info("Intercepta erro NotValidException");
         return new ResponseEntity(e.getErrorResponse(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Object> handler(UnauthorizedException e) {
+        log.info("Intercepta erro UnauthorizedException");
         return new ResponseEntity(e.getErrorResponse(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handler(NotFoundException e) {
+        log.info("Intercepta erro NotFoundException");
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
