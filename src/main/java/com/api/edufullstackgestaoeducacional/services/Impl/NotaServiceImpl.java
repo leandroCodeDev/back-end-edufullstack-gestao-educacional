@@ -107,6 +107,7 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public void deleteNota(Long id) {
-
+        NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
+        repository.delete(nota);
     }
 }
