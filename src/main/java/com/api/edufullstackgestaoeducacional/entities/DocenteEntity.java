@@ -68,4 +68,8 @@ public class DocenteEntity {
         return new ResponseAtualizaDocente(this.id, this.nome, this.getDataEntrada(), this.usuario.getId());
 
     }
+
+    public boolean isProfessor() {
+        return this.usuario.getPerfil().getNome().equalsIgnoreCase("professor");
+    }
 }
