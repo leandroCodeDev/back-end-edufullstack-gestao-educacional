@@ -1,5 +1,7 @@
 package com.api.edufullstackgestaoeducacional.entities;
 
+import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriaAluno;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAluno;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +35,15 @@ public class AlunoEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "turma_id", unique = true)
     private TurmaEntity turma;
+
+    public AlunoEntity(RequestCriaAluno dto, UsuarioEntity user, TurmaEntity turma) {
+        this.nome = dto.nome();
+        this.dataNascimento = dto.dataNascimento();
+        this.usuario = user;
+        this.turma = turma;
+    }
+
+    public ResponseAluno toResponseAluno() {
+        return new ResponseAluno(this.id, this.nome, this.dataNascimento);
+    }
 }
