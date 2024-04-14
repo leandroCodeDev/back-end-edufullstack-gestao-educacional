@@ -33,7 +33,7 @@ public class CursoController {
             @RequestBody @Valid RequestCurso request) {
 
 
-        return ResponseEntity.status(201).body(service.criarCurso(request));
+        return ResponseEntity.status(201).body(service.criarCurso(request, token));
     }
 
 
@@ -45,7 +45,7 @@ public class CursoController {
     ) {
 
 
-        return ResponseEntity.ok(service.atualizaCurso(id, dto));
+        return ResponseEntity.ok(service.atualizaCurso(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +54,7 @@ public class CursoController {
             @PathVariable(name = "id") Long id) {
 
 
-        return ResponseEntity.ok(service.pegaCurso(id));
+        return ResponseEntity.ok(service.pegaCurso(id, token));
     }
 
     @GetMapping("/{id}/materias")
@@ -63,7 +63,7 @@ public class CursoController {
             @PathVariable(name = "id") Long id) {
 
 
-        return ResponseEntity.ok(service.pegaMateriasdoCurso(id));
+        return ResponseEntity.ok(service.pegaMateriasdoCurso(id, token));
     }
 
     @GetMapping("")
@@ -71,7 +71,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token) {
 
 
-        return ResponseEntity.ok(service.pegaCursos());
+        return ResponseEntity.ok(service.pegaCursos(token));
     }
 
     @DeleteMapping("/{id}")

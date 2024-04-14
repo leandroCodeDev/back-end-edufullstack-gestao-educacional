@@ -13,17 +13,17 @@ public interface CursoService {
 
     void setTokenService(TokenService tokenService);
 
-    ResponseCurso criarCurso(RequestCurso dto);
+    ResponseCurso criarCurso(RequestCurso dto, String token);
 
-    ResponseCurso pegaCurso(Long id);
+    ResponseCurso pegaCurso(Long id, String token);
 
     Optional<CursoEntity> pegaCursoEntity(Long id);
 
-    ResponseCurso atualizaCurso(long id, RequestCurso dto);
+    ResponseCurso atualizaCurso(long id, RequestCurso dto, String token);
 
     void deleteCurso(Long id);
 
-    List<ResponseCurso> pegaCursos();
+    List<ResponseCurso> pegaCursos(String token);
 
-    List<ResponseMateria> pegaMateriasdoCurso(Long id);
+    List<ResponseMateria> pegaMateriasdoCurso(Long id, String token);
 }
