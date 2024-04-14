@@ -32,7 +32,7 @@ public class NotaController {
             @RequestBody @Valid RequestNota request) {
 
 
-        return ResponseEntity.status(201).body(service.criarNota(request));
+        return ResponseEntity.status(201).body(service.criarNota(request, token));
     }
 
 
@@ -44,7 +44,7 @@ public class NotaController {
     ) {
 
 
-        return ResponseEntity.ok(service.atualizaNota(id, dto));
+        return ResponseEntity.ok(service.atualizaNota(id, dto, token));
     }
 
     @GetMapping("/{id}")

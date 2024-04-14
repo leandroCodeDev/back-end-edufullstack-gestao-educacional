@@ -46,8 +46,9 @@ public class TokenServiceImpl implements TokenService {
 
 
     public String buscaCampo(String token, String claim) {
+        String tk = token.substring(7);
         return jwtDencoder
-                .decode(token) // decifra o token
+                .decode(tk) // decifra o token
                 .getClaims() // busca um campo especifico do token
                 .get(claim)    // definindo o campo a ser buscado
                 .toString(); // transforma a resposta em string

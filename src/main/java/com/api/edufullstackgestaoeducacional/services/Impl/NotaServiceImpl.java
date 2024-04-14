@@ -7,6 +7,7 @@ import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
 import com.api.edufullstackgestaoeducacional.entities.NotaEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.NotaRepository;
 import com.api.edufullstackgestaoeducacional.services.*;
 import lombok.Setter;
@@ -38,8 +39,8 @@ public class NotaServiceImpl implements NotaService {
     }
 
     @Override
-    public ResponseNota criarNota(RequestNota dto) {
-
+    public ResponseNota criarNota(RequestNota dto, String token) {
+        validaAcesso(token);
         DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
         if (!docente.getUsuario().getPerfil().getNome().equals("PROFESSOR")) {
             throw new NotFoundException("O Docente não tem papel de Professor");
@@ -61,6 +62,7 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public ResponseNota pegaNota(Long id, String token) {
+        validaAcesso(token);
         NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
         return nota.toResponseNota();
     }
@@ -71,7 +73,8 @@ public class NotaServiceImpl implements NotaService {
     }
 
     @Override
-    public ResponseNota atualizaNota(long id, RequestNota dto) {
+    public ResponseNota atualizaNota(long id, RequestNota dto, String token) {
+        validaAcesso(token);
         NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
         DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
         if (!docente.getUsuario().getPerfil().getNome().equals("PROFESSOR")) {
@@ -110,5 +113,14 @@ public class NotaServiceImpl implements NotaService {
     public void deleteNota(Long id) {
         NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
         repository.delete(nota);
+    }
+
+    private void validaAcesso(String token) {
+        if (
+                (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
     }
 }

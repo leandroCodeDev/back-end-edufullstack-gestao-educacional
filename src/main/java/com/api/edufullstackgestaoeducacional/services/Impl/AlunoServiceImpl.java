@@ -136,8 +136,12 @@ public class AlunoServiceImpl implements AlunoService {
     public List<ResponseNota> pegaNotasAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-        if (tokenService.buscaCampo(token, "perfil").equals("ALUNO")
-                && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope"))
+        if (
+                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
+                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
+                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
         ) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
         }
@@ -156,8 +160,12 @@ public class AlunoServiceImpl implements AlunoService {
     public ResponsePontuacao pegaPontuacaoAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-        if (tokenService.buscaCampo(token, "perfil").equals("ALUNO")
-                && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope"))
+        if (
+                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
+                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
+                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
         ) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
         }
