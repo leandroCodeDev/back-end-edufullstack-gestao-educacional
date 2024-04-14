@@ -60,7 +60,8 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public ResponseNota pegaNota(Long id) {
-        return null;
+        NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
+        return nota.toResponseNota();
     }
 
     @Override
