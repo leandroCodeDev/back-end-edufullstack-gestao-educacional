@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -96,7 +97,13 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public List<ResponseTurma> pegaTurmas() {
-        return List.of();
+        List<TurmaEntity> turmas = repository.findAll();
+        if (turmas.size() <= 0) {
+            throw new NotFoundException("Não há turmas cadastrados.");
+        }
+        return turmas.stream()
+                .map(TurmaEntity::toResponseTurma)
+                .collect(Collectors.toList());
     }
 
 }
