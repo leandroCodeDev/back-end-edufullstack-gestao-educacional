@@ -30,7 +30,7 @@ public class MateriaController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestMateria request) {
 
-
+        this.tokenService.validateAdmin(token);
         return ResponseEntity.status(201).body(service.criarMateria(request));
     }
 
@@ -42,7 +42,7 @@ public class MateriaController {
             @RequestBody @Valid RequestMateria dto
     ) {
 
-
+        this.tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.atualizaMateria(id, dto));
     }
 
@@ -51,7 +51,7 @@ public class MateriaController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-
+        this.tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaMateria(id));
     }
 
