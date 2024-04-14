@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Data
 @Entity
 @Table(name = "materia")
@@ -27,15 +28,19 @@ public class MateriaEntity {
     private CursoEntity curso;
 
     public MateriaEntity(RequestMateria dto, CursoEntity curso) {
+        log.info("cria nova entidade de materia");
         this.nome = dto.nome();
         this.curso = curso;
     }
 
     public MateriaEntity(String nome) {
+        log.info("cria nova entidade de materia");
         this.nome = nome;
     }
 
     public ResponseMateria toResponseMateria() {
+
+        log.info("cria novo DTO de materia");
         return new ResponseMateria(this.id, this.nome);
     }
 }

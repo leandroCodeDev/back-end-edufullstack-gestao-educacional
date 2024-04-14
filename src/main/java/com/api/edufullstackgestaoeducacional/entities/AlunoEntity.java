@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "aluno")
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class AlunoEntity {
 
     @Id
@@ -47,9 +49,11 @@ public class AlunoEntity {
         this.dataNascimento = dto.dataNascimento();
         this.usuario = user;
         this.turma = turma;
+        log.info("cria nova entidade de aluno");
     }
 
     public ResponseAluno toResponseAluno() {
+        log.info("cria novo DTO  de aluno");
         return new ResponseAluno(this.id, this.nome, this.dataNascimento);
     }
 }
