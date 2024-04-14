@@ -4,6 +4,7 @@ package com.api.edufullstackgestaoeducacional.services;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriaAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAluno;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNota;
 import com.api.edufullstackgestaoeducacional.entities.AlunoEntity;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface AlunoService {
     void deleteAluno(Long id);
 
     List<ResponseAluno> pegaAlunos();
+
+    List<ResponseNota> pegaNotasAluno(long id);
 }

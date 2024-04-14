@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,6 +36,11 @@ public class AlunoEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "turma_id", unique = true)
     private TurmaEntity turma;
+
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.EAGER)
+    private List<NotaEntity> notas;
+
+
 
     public AlunoEntity(RequestCriaAluno dto, UsuarioEntity user, TurmaEntity turma) {
         this.nome = dto.nome();
