@@ -19,4 +19,6 @@ public interface ColecaoService {
     TurmaService getTurmaService();
 
     AlunoService getAlunoService();
+
+    NotaService getNotaService();
 }
