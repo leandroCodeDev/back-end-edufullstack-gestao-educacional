@@ -105,9 +105,9 @@ Se você usa o Insomnia para testar APIs, pode importar as requisições deste p
 fazer isso, siga estas etapas:
 
 1. Baixe o arquivo do Insomnia clicando em um link abaixo.
-    - [Insomnia.har](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/Insomnia.har)
-    - [InsomniaV4.json](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/InsomniaV4.json)
-    - [InsomniaV4.yaml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/InsomniaV4.yaml)
+    - [Insomnia.har](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/colecoesRotas/Insomnia.har)
+    - [InsomniaV4.json](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/colecoesRotas/InsomniaV4.json)
+    - [InsomniaV4.yaml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/colecoesRotas/InsomniaV4.yaml)
 
 2. Abra o Insomnia e clique em "create" no canto superior direito .
 
@@ -123,18 +123,18 @@ Agora você pode usar as requisições diretamente no Insomnia para testar a API
 
 Tenha as portas 8092 e 5434 liberadas; caso contrário, altere a configuração do docker-compose.yml e as configurações do Spring, como porta de execução e porta de conexão do banco de dados, se necessário.
 
-Porta 8092 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/src/main/resources/application.properties)
+Porta 8092 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/src/main/resources/application.properties)
 
 ```bash
 server.port={ PORTA }
 ```
 
-Porta 5434 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/src/main/resources/application.properties)
+Porta 5434 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/src/main/resources/application.properties)
 
 ```bash
 spring.datasource.url=jdbc:postgresql://localhost:{ PORTA }/gestao-educacional
 ```
-E a propriedade abaixo no aquivo [docker-compose.yml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/reviewReadme/docker-compose.yml)
+E a propriedade abaixo no aquivo [docker-compose.yml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/docker-compose.yml)
 
 ```bash
     ports:
