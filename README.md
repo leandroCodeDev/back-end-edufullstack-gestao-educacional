@@ -134,7 +134,7 @@ Porta 5434 ocupada altera a propriedade abaixo o arquivo [application.properties
 ```bash
 spring.datasource.url=jdbc:postgresql://localhost:{ PORTA }/gestao-educacional
 ```
-E a propriedade abaixo no aquivo [docker-compose.yml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/docker-compose.yml)
+E a propriedade abaixo no aquivo [docker-compose.yml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/main/reviewReadme/docker-compose.yml)
 
 ```bash
     ports:
@@ -214,7 +214,7 @@ O projeto possui as seguintes entidades, cada uma representando um elemento esse
 Essas entidades formam a base do sistema e são essenciais para o seu funcionamento.
 
 Representação das entidades na modelagem do Diagrama ER (Entidade-Relacionamento).
-![Diagrama ER](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/imagens/gestao-educacional%20.png)
+![Diagrama ER](https://raw.githubusercontent.com/leandroCodeDev/edufullstack-gestao-educacional/main/imagens/gestao-educacional%20.png?token=GHSAT0AAAAAACQ64G5673XOEVDMBEQZSIHUZQ4MF7Q)
 
 ## Utilização de Papéis de Usuário
 
