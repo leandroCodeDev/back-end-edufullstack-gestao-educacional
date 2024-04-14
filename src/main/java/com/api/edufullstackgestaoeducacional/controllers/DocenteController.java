@@ -9,6 +9,7 @@ import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/docentes")
+@Slf4j
 public class DocenteController {
 
     private final DocenteService service;
@@ -35,7 +37,7 @@ public class DocenteController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCriarDocente dto
     ) {
-
+        log.info("Chamou metodo post para criar um docente");
         return ResponseEntity.status(201).body(service.criarDocente(dto, token));
     }
 
@@ -45,7 +47,7 @@ public class DocenteController {
             @PathVariable(name = "id") long id,
             @RequestBody @Valid RequestAtualizaDocente dto
     ) {
-
+        log.info("Chamou metodo put para atualizar um docente");
         return ResponseEntity.ok(service.atualizaDocente(id, dto, token));
     }
 
@@ -54,7 +56,7 @@ public class DocenteController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-
+        log.info("Chamou metodo get para pegar um docente");
         return ResponseEntity.ok(service.pegaDocente(id, token));
     }
 
@@ -63,7 +65,7 @@ public class DocenteController {
     public ResponseEntity<List<ResponsePegaDocente>> pegaDocente(
             @RequestHeader(name = "Authorization") String token
     ) {
-
+        log.info("Chamou metodo get para pegar todos docentes");
         return ResponseEntity.ok(service.pegaDocentes(token));
     }
 
@@ -72,6 +74,7 @@ public class DocenteController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
+        log.info("Chamou metodo delete para deleta um docente");
         tokenService.validateAdmin(token);
         service.deleteDocente(id);
         return ResponseEntity.status(204).build();
