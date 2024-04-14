@@ -70,7 +70,40 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public ResponseAluno atualizaAluno(long id, RequestAluno dto) {
-        return null;
+        AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+
+        UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
+        TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+
+        if (user == null) {
+            throw new NotValidException("A validação Falhou", "login de usuario não existe");
+        }
+
+        if (!dto.dataNascimento().before(new Date())) {
+            throw new NotValidException("A validação Falhou", "A dataNascimento não pode ser uma data futura");
+        }
+        exiteUsuario(id, user.getId());
+
+        if (!aluno.getNome().equals(dto.nome())) {
+            aluno.setNome(dto.nome());
+        }
+        if (dto.dataNascimento().before(new Date())
+                || dto.dataNascimento().equals(new Date())
+        ) {
+            aluno.setDataNascimento(dto.dataNascimento());
+        }
+        if (!aluno.getUsuario().getLogin().equals(dto.login())) {
+            aluno.setUsuario(user);
+        }
+
+        if (aluno.getTurma().getId() != dto.turmaId()) {
+            aluno.setTurma(turma);
+        }
+
+        aluno = repository.save(aluno);
+        aluno = repository.findById(aluno.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+
+        return aluno.toResponseAluno();
     }
 
     @Override
