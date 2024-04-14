@@ -13,10 +13,12 @@ import com.api.edufullstackgestaoeducacional.services.SenhaService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository repository;
@@ -57,6 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioEntity pegaUmUsuarioPeloLogin(String login) {
+        log.info("pega um usuario pelo login ");
         return repository.findByLogin(login).orElseGet(() -> null);
     }
 
@@ -64,6 +67,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void validaSenha(Long id, String senha) {
+        log.info("valida a senha");
         UsuarioEntity user = repository.findById(id).orElseThrow(() -> new UnauthorizedException("A validação Falhou", "Login ou senha incorreto"));
         if (!senhaService.compararSenha(senha, user.getSenha())) {
             throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
@@ -72,6 +76,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void validaSenha(String senha, String senhaEncriptada) {
+        log.info("pega um usuario pelo login ");
         if (!senhaService.compararSenha(senha, senhaEncriptada)) {
             throw new UnauthorizedException("A validação Falhou", "Login ou senha incorreto");
         }

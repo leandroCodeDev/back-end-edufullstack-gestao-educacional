@@ -5,6 +5,7 @@ import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class TokenServiceImpl implements TokenService {
@@ -23,7 +25,7 @@ public class TokenServiceImpl implements TokenService {
     public String gerarToken(
             UsuarioEntity user
     ) {
-
+        log.info("gera token");
         Instant now = Instant.now();
 
         String scope = user.getLogin();
@@ -46,6 +48,7 @@ public class TokenServiceImpl implements TokenService {
 
 
     public String buscaCampo(String token, String claim) {
+        log.info("busca campo de token");
         String tk = token.substring(7);
         return jwtDencoder
                 .decode(tk) // decifra o token
@@ -57,6 +60,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void validateAdmin(String token) {
+        log.info("valida se o token é de admin");
         String perfil = buscaCampo(token.substring(7), "perfil");
         if (!perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -66,6 +70,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void validatePedadogico(String token) {
+        log.info("valida se o token é de pedagogo");
         String perfil = buscaCampo(token.substring(7), "perfil");
         if (!perfil.equals("PEDAGOGICO")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -74,6 +79,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void validateRecruiter(String token) {
+        log.info("valida se o token é de recruter");
         String perfil = buscaCampo(token.substring(7), "perfil");
         if (!perfil.equals("RECRUITER")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -82,6 +88,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void validateProfessor(String token) {
+        log.info("valida se o token é de professor");
         String perfil = buscaCampo(token.substring(7), "perfil");
         if (!perfil.equals("PROFESSOR")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -90,6 +97,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void validateAluno(String token) {
+        log.info("valida se o token é de aluno");
         String perfil = buscaCampo(token.substring(7), "perfil");
         if (!perfil.equals("ALUNO")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");

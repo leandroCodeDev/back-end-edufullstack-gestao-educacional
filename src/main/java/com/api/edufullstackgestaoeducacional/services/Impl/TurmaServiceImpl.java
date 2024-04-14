@@ -13,6 +13,7 @@ import com.api.edufullstackgestaoeducacional.services.DocenteService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @Service
 public class TurmaServiceImpl implements TurmaService {
 
@@ -33,12 +35,14 @@ public class TurmaServiceImpl implements TurmaService {
     private TokenService tokenService;
 
     public TurmaServiceImpl(TurmaRepository repository) {
+        log.info("cria service de turma");
         this.repository = repository;
     }
 
 
     @Override
     public ResponseTurma criarTurma(RequestTurma dto, String token) {
+        log.info("cria turma");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -58,6 +62,7 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public ResponseTurma pegaTurma(Long id, String token) {
+        log.info("pega turma");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -68,12 +73,13 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public Optional<TurmaEntity> pegaTurmaEntity(Long id) {
-
+        log.info("pegar entidade de turma");
         return repository.findById(id);
     }
 
     @Override
     public ResponseTurma atualizaTurma(long id, RequestTurma dto, String token) {
+        log.info("atualiza turma");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
@@ -106,12 +112,14 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public void deleteTurma(Long id) {
+        log.info("deleta turma");
         TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
         repository.delete(turma);
     }
 
     @Override
     public List<ResponseTurma> pegaTurmas(String token, String s) {
+        log.info("pega turmas");
         String perfil = tokenService.buscaCampo(token, "perfil");
         if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
             throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");

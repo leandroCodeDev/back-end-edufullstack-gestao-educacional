@@ -3,7 +3,10 @@ package com.api.edufullstackgestaoeducacional.services.Impl;
 import com.api.edufullstackgestaoeducacional.services.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+@Slf4j
 
 @Service
 @AllArgsConstructor
