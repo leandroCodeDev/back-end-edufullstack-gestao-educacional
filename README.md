@@ -99,9 +99,34 @@ git clone https://github.com/leandroCodeDev/edufullstack-gestao-educacional
 docker-compose up -d
 ```
 
+**Precauções**
+
+Tenha as portas 8092 e 5434 liberadas; caso contrário, altere a configuração do docker-compose.yml e as configurações do Spring, como porta de execução e porta de conexão do banco de dados, se necessário.
+
+Porta 8092 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/src/main/resources/application.properties)
+
+```bash
+server.port={ PORTA }
+```
+
+Porta 5434 ocupada altera a propriedade abaixo o arquivo [application.properties](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/src/main/resources/application.properties)
+
+```bash
+spring.datasource.url=jdbc:postgresql://localhost:{ PORTA }/gestao-educacional
+```
+E a propriedade abaixo no aquivo [docker-compose.yml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/docker-compose.yml)
+
+```bash
+    ports:
+      - { PORTA }:5432
+```
+
+
 **Execução**
 
 Abra o projeto no IntelliJ IDEA e execute-o usando o atalho de execução da IDE.
+
+Abra o seu navegador ou sua plataforma de api e insira o link [localhost:8092](localhost:8092)
 
 ## Entidades do Projeto
 
@@ -167,6 +192,9 @@ O projeto possui as seguintes entidades, cada uma representando um elemento esse
 - **data** (Date): Data em que a nota foi atribuída.
 
 Essas entidades formam a base do sistema e são essenciais para o seu funcionamento.
+
+Representação das entidades na modelagem do Diagrama ER (Entidade-Relacionamento).
+![Diagrama ER](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/feature/reviewReadme/imagens/gestao-educacional%20.png)
 
 ## Utilização de Papéis de Usuário
 
