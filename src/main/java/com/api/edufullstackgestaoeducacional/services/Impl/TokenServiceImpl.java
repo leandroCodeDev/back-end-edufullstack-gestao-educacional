@@ -34,6 +34,7 @@ public class TokenServiceImpl implements TokenService {
                 .expiresAt(now.plusSeconds(TEMPO_EXPIRACAO)) // tempo de expiração
                 .subject(user.getId().toString())   // sujeito do token ou dono do token
                 .claim("scope", scope) // campo customizado, chamado scope que será adicionado ao token, alem dos campos anteriores
+                .claim("id", user.getId()) // campo customizado, chamado scope que será adicionado ao token, alem dos campos anteriores
                 .claim("perfil", user.getPerfil().getNome())
                 .build(); // constroi o Objeto de JwtClaimsSet
 

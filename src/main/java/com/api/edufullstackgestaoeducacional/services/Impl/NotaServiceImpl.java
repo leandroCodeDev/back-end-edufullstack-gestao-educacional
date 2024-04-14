@@ -8,10 +8,7 @@ import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
 import com.api.edufullstackgestaoeducacional.entities.NotaEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.NotaRepository;
-import com.api.edufullstackgestaoeducacional.services.AlunoService;
-import com.api.edufullstackgestaoeducacional.services.DocenteService;
-import com.api.edufullstackgestaoeducacional.services.MateriaService;
-import com.api.edufullstackgestaoeducacional.services.NotaService;
+import com.api.edufullstackgestaoeducacional.services.*;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +28,10 @@ public class NotaServiceImpl implements NotaService {
 
     @Setter
     private MateriaService materiaService;
+
+    @Setter
+    private TokenService tokenService;
+
 
     public NotaServiceImpl(NotaRepository repository) {
         this.repository = repository;
@@ -59,7 +60,7 @@ public class NotaServiceImpl implements NotaService {
     }
 
     @Override
-    public ResponseNota pegaNota(Long id) {
+    public ResponseNota pegaNota(Long id, String token) {
         NotaEntity nota = pegaNotaEntity(id).orElseThrow(() -> new NotFoundException("Nota não encontrado"));
         return nota.toResponseNota();
     }

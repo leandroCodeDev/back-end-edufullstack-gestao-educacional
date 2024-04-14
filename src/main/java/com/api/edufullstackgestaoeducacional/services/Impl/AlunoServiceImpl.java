@@ -12,8 +12,10 @@ import com.api.edufullstackgestaoeducacional.entities.TurmaEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.AlunoRepository;
 import com.api.edufullstackgestaoeducacional.services.AlunoService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
@@ -35,6 +37,9 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Setter
     private TurmaService turmaService;
+
+    @Setter
+    private TokenService tokenService;
 
     public AlunoServiceImpl(AlunoRepository repository) {
         this.repository = repository;
@@ -128,8 +133,15 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public List<ResponseNota> pegaNotasAluno(long id) {
+    public List<ResponseNota> pegaNotasAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+        if (tokenService.buscaCampo(token, "perfil").equals("ALUNO")
+                && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope"))
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         List<NotaEntity> notas = aluno.getNotas();
         if (notas.size() <= 0) {
             throw new NotFoundException("Não há notas cadastradas para o aluno especificado.");
@@ -141,8 +153,16 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponsePontuacao pegaPontuacaoAluno(long id) {
+    public ResponsePontuacao pegaPontuacaoAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+        if (tokenService.buscaCampo(token, "perfil").equals("ALUNO")
+                && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope"))
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
+
         List<NotaEntity> notas = aluno.getNotas();
         if (notas.size() <= 0) {
             return new ResponsePontuacao(0.0);

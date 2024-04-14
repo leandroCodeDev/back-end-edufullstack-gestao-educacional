@@ -9,6 +9,7 @@ import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.TurmaRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class TurmaServiceImpl implements TurmaService {
     private CursoService cursoService;
     @Setter
     private DocenteService docenteService;
+    @Setter
+    private TokenService tokenService;
 
     public TurmaServiceImpl(TurmaRepository repository) {
         this.repository = repository;

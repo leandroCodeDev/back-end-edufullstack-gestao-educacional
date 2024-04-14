@@ -8,7 +8,9 @@ import com.api.edufullstackgestaoeducacional.entities.MateriaEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.CursoRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,8 @@ import java.util.stream.Collectors;
 public class CursoServiceImpl implements CursoService {
 
     private final CursoRepository repository;
-
+    @Setter
+    private TokenService tokenService;
 
     @Override
     public ResponseCurso criarCurso(RequestCurso dto) {

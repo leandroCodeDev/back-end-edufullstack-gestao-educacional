@@ -14,6 +14,8 @@ public interface TurmaService {
 
     void setDocenteService(DocenteService docenteService);
 
+    void setTokenService(TokenService tokenService);
+
     ResponseTurma criarTurma(RequestTurma dto);
 
     ResponseTurma pegaTurma(Long id);

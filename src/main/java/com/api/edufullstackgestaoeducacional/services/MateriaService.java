@@ -12,6 +12,8 @@ public interface MateriaService {
 
     void setCursoService(CursoService cursoService);
 
+    void setTokenService(TokenService tokenService);
+
     ResponseMateria criarMateria(RequestMateria dto);
 
     ResponseMateria pegaMateria(Long id);

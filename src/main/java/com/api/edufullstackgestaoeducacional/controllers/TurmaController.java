@@ -23,6 +23,8 @@ public class TurmaController {
         this.service = colecao.getTurmaService();
         this.service.setCursoService(colecao.getCursoService());
         this.service.setDocenteService(colecao.getDocenteService());
+        this.service.setTokenService(colecao.getTokenService());
+
     }
 
     @PostMapping()

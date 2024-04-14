@@ -27,6 +27,8 @@ public class AlunoController {
         this.tokenService = colecaoService.getTokenService();
         this.service.setTurmaService(colecaoService.getTurmaService());
         this.service.setUsuarioService(colecaoService.getUsuarioService());
+        this.service.setTokenService(colecaoService.getTokenService());
+
     }
 
 
@@ -65,7 +67,7 @@ public class AlunoController {
             @PathVariable(name = "id") long id
     ) {
 
-        return ResponseEntity.ok(service.pegaNotasAluno(id));
+        return ResponseEntity.ok(service.pegaNotasAluno(id, token));
     }
 
     @GetMapping("/{id}/pontuacao")
@@ -74,7 +76,7 @@ public class AlunoController {
             @PathVariable(name = "id") long id
     ) {
 
-        return ResponseEntity.ok(service.pegaPontuacaoAluno(id));
+        return ResponseEntity.ok(service.pegaPontuacaoAluno(id, token));
     }
 
     @GetMapping()

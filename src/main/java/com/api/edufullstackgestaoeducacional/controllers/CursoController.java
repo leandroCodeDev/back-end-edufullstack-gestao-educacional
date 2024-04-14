@@ -22,6 +22,8 @@ public class CursoController {
     public CursoController(ColecaoService colecao) {
         this.service = colecao.getCursoService();
         this.tokenService = colecao.getTokenService();
+        this.service.setTokenService(colecao.getTokenService());
+
 
     }
 

@@ -22,6 +22,8 @@ public class NotaController {
         this.service.setAlunoService(colecao.getAlunoService());
         this.service.setDocenteService(colecao.getDocenteService());
         this.service.setMateriaService(colecao.getMateriaService());
+        this.service.setTokenService(colecao.getTokenService());
+
     }
 
     @PostMapping()
@@ -51,7 +53,7 @@ public class NotaController {
             @PathVariable(name = "id") Long id) {
 
 
-        return ResponseEntity.ok(service.pegaNota(id));
+        return ResponseEntity.ok(service.pegaNota(id, token));
     }
 
 

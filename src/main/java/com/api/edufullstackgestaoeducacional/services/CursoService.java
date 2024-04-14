@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface CursoService {
 
+    void setTokenService(TokenService tokenService);
 
     ResponseCurso criarCurso(RequestCurso dto);
 
