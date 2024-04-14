@@ -52,14 +52,14 @@ public class AlunoServiceImpl implements AlunoService {
         exiteUsuario(user.getId());
         AlunoEntity aluno = new AlunoEntity(dto, user, turma);
         aluno = repository.save(aluno);
-        aluno = repository.findById(aluno.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        aluno = repository.findById(aluno.getId()).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
         return aluno.toResponseAluno();
     }
 
     @Override
     public ResponseAluno pegaAluno(Long id) {
-        AlunoEntity aluno = pegaAlunoEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        AlunoEntity aluno = pegaAlunoEntity(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         return aluno.toResponseAluno();
     }
 
@@ -70,8 +70,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public ResponseAluno atualizaAluno(long id, RequestAluno dto) {
-        AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
-
+        AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
 
@@ -101,14 +100,15 @@ public class AlunoServiceImpl implements AlunoService {
         }
 
         aluno = repository.save(aluno);
-        aluno = repository.findById(aluno.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        aluno = repository.findById(aluno.getId()).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
         return aluno.toResponseAluno();
     }
 
     @Override
     public void deleteAluno(Long id) {
-
+        AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+        repository.delete(aluno);
     }
 
     @Override
@@ -121,7 +121,6 @@ public class AlunoServiceImpl implements AlunoService {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a outro aluno!");
         }
     }
-
 
     private void exiteUsuario(Long idAluno, Long idUsuario) {
         Optional<AlunoEntity> aluno = repository.findByUsuarioId(idUsuario);
