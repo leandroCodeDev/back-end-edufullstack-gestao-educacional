@@ -39,7 +39,7 @@ public class TurmaController {
     public ResponseEntity<ResponseTurma> atualizaTurma(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id,
-            @RequestBody RequestTurma dto
+            @RequestBody @Valid RequestTurma dto
     ) {
 
         this.tokenService.validateAdmin(token);

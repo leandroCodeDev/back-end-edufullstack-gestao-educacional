@@ -44,23 +44,48 @@ public class TurmaServiceImpl implements TurmaService {
 
         TurmaEntity turma = new TurmaEntity(dto, curso, docente);
         turma = repository.save(turma);
-        turma = repository.findById(turma.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        turma = pegaTurmaEntity(turma.getId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
         return turma.toResponseTurma();
     }
 
     @Override
     public ResponseTurma pegaTurma(Long id) {
-        return null;
+        TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        return turma.toResponseTurma();
     }
 
     @Override
     public Optional<TurmaEntity> pegaTurmaEntity(Long id) {
-        return Optional.empty();
+
+        return repository.findById(id);
     }
 
     @Override
     public ResponseTurma atualizaTurma(long id, RequestTurma dto) {
-        return null;
+        TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+        CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
+
+        if (!docente.getUsuario().getPerfil().getNome().equals("PROFESSOR")) {
+            throw new NotFoundException("O Docente não tem papel de Professor");
+        }
+
+        if (!turma.getNome().equals(dto.nome())) {
+            turma.setNome(dto.nome());
+        }
+
+        if (turma.getCurso().getId() != dto.cursoId()) {
+            turma.setCurso(curso);
+        }
+
+        if (turma.getDocente().getId() != dto.docenteId()) {
+            turma.setDocente(docente);
+        }
+
+        repository.save(turma);
+        turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+
+        return turma.toResponseTurma();
     }
 
     @Override
