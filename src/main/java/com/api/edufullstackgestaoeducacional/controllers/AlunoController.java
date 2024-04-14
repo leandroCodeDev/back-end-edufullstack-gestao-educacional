@@ -38,7 +38,7 @@ public class AlunoController {
             @RequestBody @Valid RequestCriaAluno dto
     ) {
 
-        return ResponseEntity.status(201).body(service.criarAluno(dto));
+        return ResponseEntity.status(201).body(service.criarAluno(dto, token));
     }
 
     @PutMapping("/{id}")
@@ -48,7 +48,7 @@ public class AlunoController {
             @RequestBody @Valid RequestAluno dto
     ) {
 
-        return ResponseEntity.ok(service.atualizaAluno(id, dto));
+        return ResponseEntity.ok(service.atualizaAluno(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -57,7 +57,7 @@ public class AlunoController {
             @PathVariable(name = "id") long id
     ) {
 
-        return ResponseEntity.ok(service.pegaAluno(id));
+        return ResponseEntity.ok(service.pegaAluno(id, token));
     }
 
 
@@ -84,7 +84,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token
     ) {
 
-        return ResponseEntity.ok(service.pegaAlunos());
+        return ResponseEntity.ok(service.pegaAlunos(token));
     }
 
     @DeleteMapping("/{id}")

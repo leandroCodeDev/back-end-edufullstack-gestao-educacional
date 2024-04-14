@@ -19,17 +19,17 @@ public interface AlunoService {
 
     void setTokenService(TokenService tokenService);
 
-    ResponseAluno criarAluno(RequestCriaAluno dto);
+    ResponseAluno criarAluno(RequestCriaAluno dto, String token);
 
-    ResponseAluno pegaAluno(Long id);
+    ResponseAluno pegaAluno(Long id, String token);
 
     Optional<AlunoEntity> pegaAlunoEntity(Long id);
 
-    ResponseAluno atualizaAluno(long id, RequestAluno dto);
+    ResponseAluno atualizaAluno(long id, RequestAluno dto, String token);
 
     void deleteAluno(Long id);
 
-    List<ResponseAluno> pegaAlunos();
+    List<ResponseAluno> pegaAlunos(String token);
 
     List<ResponseNota> pegaNotasAluno(long id, String token);
 

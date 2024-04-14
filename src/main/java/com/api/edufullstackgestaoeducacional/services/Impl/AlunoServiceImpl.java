@@ -47,7 +47,12 @@ public class AlunoServiceImpl implements AlunoService {
 
 
     @Override
-    public ResponseAluno criarAluno(RequestCriaAluno dto) {
+    public ResponseAluno criarAluno(RequestCriaAluno dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
 
@@ -67,7 +72,11 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponseAluno pegaAluno(Long id) {
+    public ResponseAluno pegaAluno(Long id, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         AlunoEntity aluno = pegaAlunoEntity(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         return aluno.toResponseAluno();
     }
@@ -78,7 +87,12 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponseAluno atualizaAluno(long id, RequestAluno dto) {
+    public ResponseAluno atualizaAluno(long id, RequestAluno dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
@@ -121,7 +135,11 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public List<ResponseAluno> pegaAlunos() {
+    public List<ResponseAluno> pegaAlunos(String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         List<AlunoEntity> alunos = repository.findAll();
         if (alunos.size() <= 0) {
             throw new NotFoundException("Não há alunos cadastrados.");
