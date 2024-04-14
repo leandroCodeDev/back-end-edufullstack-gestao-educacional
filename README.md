@@ -99,6 +99,26 @@ git clone https://github.com/leandroCodeDev/edufullstack-gestao-educacional
 docker-compose up -d
 ```
 
+**Importando arquivo com as rotas da API para o Insomnia**
+
+Se você usa o Insomnia para testar APIs, pode importar as requisições deste projeto diretamente para o Insomnia. Para
+fazer isso, siga estas etapas:
+
+1. Baixe o arquivo do Insomnia clicando em um link abaixo.
+    - [Insomnia.har](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/Insomnia.har)
+    - [InsomniaV4.json](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/InsomniaV4.json)
+    - [InsomniaV4.yaml](https://github.com/leandroCodeDev/edufullstack-gestao-educacional/blob/release/colecoesRotas/InsomniaV4.yaml)
+
+2. Abra o Insomnia e clique em "create" no canto superior direito .
+
+3. Selecione "Import" e escolha a opção "From File".
+
+4. Navegue até onde o arquivo do Insomnia foi baixado e selecione-o.
+
+5. As requisições serão importadas para o seu ambiente do Insomnia.
+
+Agora você pode usar as requisições diretamente no Insomnia para testar a API deste projeto.
+
 **Precauções**
 
 Tenha as portas 8092 e 5434 liberadas; caso contrário, altere a configuração do docker-compose.yml e as configurações do Spring, como porta de execução e porta de conexão do banco de dados, se necessário.
