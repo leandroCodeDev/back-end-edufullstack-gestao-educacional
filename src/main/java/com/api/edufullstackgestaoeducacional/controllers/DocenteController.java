@@ -35,8 +35,8 @@ public class DocenteController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCriarDocente dto
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.status(201).body(service.criarDocente(dto));
+
+        return ResponseEntity.status(201).body(service.criarDocente(dto, token));
     }
 
     @PutMapping("/{id}")
@@ -45,8 +45,8 @@ public class DocenteController {
             @PathVariable(name = "id") long id,
             @RequestBody @Valid RequestAtualizaDocente dto
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.atualizaDocente(id, dto));
+
+        return ResponseEntity.ok(service.atualizaDocente(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -54,8 +54,8 @@ public class DocenteController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaDocente(id));
+
+        return ResponseEntity.ok(service.pegaDocente(id, token));
     }
 
 
@@ -63,8 +63,8 @@ public class DocenteController {
     public ResponseEntity<List<ResponsePegaDocente>> pegaDocente(
             @RequestHeader(name = "Authorization") String token
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaDocentes());
+
+        return ResponseEntity.ok(service.pegaDocentes(token));
     }
 
     @DeleteMapping("/{id}")

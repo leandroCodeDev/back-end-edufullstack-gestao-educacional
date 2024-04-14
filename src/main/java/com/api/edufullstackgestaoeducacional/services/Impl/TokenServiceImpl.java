@@ -34,6 +34,7 @@ public class TokenServiceImpl implements TokenService {
                 .expiresAt(now.plusSeconds(TEMPO_EXPIRACAO)) // tempo de expiração
                 .subject(user.getId().toString())   // sujeito do token ou dono do token
                 .claim("scope", scope) // campo customizado, chamado scope que será adicionado ao token, alem dos campos anteriores
+                .claim("id", user.getId()) // campo customizado, chamado scope que será adicionado ao token, alem dos campos anteriores
                 .claim("perfil", user.getPerfil().getNome())
                 .build(); // constroi o Objeto de JwtClaimsSet
 
@@ -45,8 +46,9 @@ public class TokenServiceImpl implements TokenService {
 
 
     public String buscaCampo(String token, String claim) {
+        String tk = token.substring(7);
         return jwtDencoder
-                .decode(token) // decifra o token
+                .decode(tk) // decifra o token
                 .getClaims() // busca um campo especifico do token
                 .get(claim)    // definindo o campo a ser buscado
                 .toString(); // transforma a resposta em string

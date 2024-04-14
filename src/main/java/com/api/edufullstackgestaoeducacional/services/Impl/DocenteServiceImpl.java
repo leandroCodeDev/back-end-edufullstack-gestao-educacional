@@ -9,6 +9,7 @@ import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.DocenteRepository;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
@@ -40,9 +41,18 @@ public class DocenteServiceImpl implements DocenteService {
 
 
     @Override
-    public ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto) {
+    public ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
 
         DocenteEntity docente = repository.findById(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+
+        if ((perfil.equals("RECRUITER") || perfil.equals("PEDAGOGICO"))
+                && !docente.isProfessor()) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
 
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
 
@@ -73,8 +83,16 @@ public class DocenteServiceImpl implements DocenteService {
     }
 
     @Override
-    public ResponseCriarDocente criarDocente(RequestCriarDocente dto) {
+    public ResponseCriarDocente criarDocente(RequestCriarDocente dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
+        if ((perfil.equals("RECRUITER") || perfil.equals("PEDAGOGICO")) &&
+                !user.getPerfil().getNome().equalsIgnoreCase("professor")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
 
         if (user == null) {
             throw new NotValidException("A validação Falhou", "login de usuario não existe");
@@ -87,8 +105,18 @@ public class DocenteServiceImpl implements DocenteService {
     }
 
     @Override
-    public ResponsePegaDocente pegaDocente(Long id) {
+    public ResponsePegaDocente pegaDocente(Long id, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         DocenteEntity docente = pegaDocenteEntity(id).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
+
+        if ((perfil.equals("RECRUITER") || perfil.equals("PEDAGOGICO")) &&
+                !docente.isProfessor()) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         return docente.toResponsePegaDocente();
     }
 
@@ -98,13 +126,26 @@ public class DocenteServiceImpl implements DocenteService {
     }
 
     @Override
-    public List<ResponsePegaDocente> pegaDocentes() {
+    public List<ResponsePegaDocente> pegaDocentes(String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("RECRUITER") && !perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         List<DocenteEntity> docentes = repository.findAll();
+
+        if (perfil.equals("RECRUITER") || perfil.equals("PEDAGOGICO")) {
+            docentes = docentes.stream()
+                    .filter(DocenteEntity::isProfessor)
+                    .toList();
+        }
+
         if (docentes.size() <= 0) {
             throw new NotFoundException("Não há docentes cadastrados.");
         }
+
         return docentes.stream()
-                .map(docente -> docente.toResponsePegaDocente())
+                .map(DocenteEntity::toResponsePegaDocente)
                 .collect(Collectors.toList());
     }
 
@@ -127,4 +168,5 @@ public class DocenteServiceImpl implements DocenteService {
             throw new NotValidException("A validação falhou!", "Usuario ja vinculado a outro docente!");
         }
     }
+
 }

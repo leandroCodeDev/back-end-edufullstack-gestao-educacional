@@ -23,6 +23,8 @@ public class TurmaController {
         this.service = colecao.getTurmaService();
         this.service.setCursoService(colecao.getCursoService());
         this.service.setDocenteService(colecao.getDocenteService());
+        this.service.setTokenService(colecao.getTokenService());
+
     }
 
     @PostMapping()
@@ -30,8 +32,8 @@ public class TurmaController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestTurma request) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.status(201).body(service.criarTurma(request));
+
+        return ResponseEntity.status(201).body(service.criarTurma(request, token));
     }
 
 
@@ -42,8 +44,8 @@ public class TurmaController {
             @RequestBody @Valid RequestTurma dto
     ) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.atualizaTurma(id, dto));
+
+        return ResponseEntity.ok(service.atualizaTurma(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -51,16 +53,16 @@ public class TurmaController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaTurma(id));
+
+        return ResponseEntity.ok(service.pegaTurma(id, token));
     }
 
     @GetMapping("")
     public ResponseEntity<List<ResponseTurma>> pegaTurmas(
             @RequestHeader(name = "Authorization") String token) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaTurmas());
+
+        return ResponseEntity.ok(service.pegaTurmas(token, token));
     }
 
     @DeleteMapping("/{id}")

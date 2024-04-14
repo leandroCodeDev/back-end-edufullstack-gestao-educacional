@@ -27,6 +27,8 @@ public class AlunoController {
         this.tokenService = colecaoService.getTokenService();
         this.service.setTurmaService(colecaoService.getTurmaService());
         this.service.setUsuarioService(colecaoService.getUsuarioService());
+        this.service.setTokenService(colecaoService.getTokenService());
+
     }
 
 
@@ -35,8 +37,8 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCriaAluno dto
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.status(201).body(service.criarAluno(dto));
+
+        return ResponseEntity.status(201).body(service.criarAluno(dto, token));
     }
 
     @PutMapping("/{id}")
@@ -45,8 +47,8 @@ public class AlunoController {
             @PathVariable(name = "id") long id,
             @RequestBody @Valid RequestAluno dto
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.atualizaAluno(id, dto));
+
+        return ResponseEntity.ok(service.atualizaAluno(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -54,8 +56,8 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaAluno(id));
+
+        return ResponseEntity.ok(service.pegaAluno(id, token));
     }
 
 
@@ -64,8 +66,8 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaNotasAluno(id));
+
+        return ResponseEntity.ok(service.pegaNotasAluno(id, token));
     }
 
     @GetMapping("/{id}/pontuacao")
@@ -73,16 +75,16 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaPontuacaoAluno(id));
+
+        return ResponseEntity.ok(service.pegaPontuacaoAluno(id, token));
     }
 
     @GetMapping()
     public ResponseEntity<List<ResponseAluno>> pegaAluno(
             @RequestHeader(name = "Authorization") String token
     ) {
-        tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaAlunos());
+
+        return ResponseEntity.ok(service.pegaAlunos(token));
     }
 
     @DeleteMapping("/{id}")

@@ -12,8 +12,10 @@ import com.api.edufullstackgestaoeducacional.entities.TurmaEntity;
 import com.api.edufullstackgestaoeducacional.entities.UsuarioEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotValidException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.AlunoRepository;
 import com.api.edufullstackgestaoeducacional.services.AlunoService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import com.api.edufullstackgestaoeducacional.services.UsuarioService;
 import lombok.Setter;
@@ -36,13 +38,21 @@ public class AlunoServiceImpl implements AlunoService {
     @Setter
     private TurmaService turmaService;
 
+    @Setter
+    private TokenService tokenService;
+
     public AlunoServiceImpl(AlunoRepository repository) {
         this.repository = repository;
     }
 
 
     @Override
-    public ResponseAluno criarAluno(RequestCriaAluno dto) {
+    public ResponseAluno criarAluno(RequestCriaAluno dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
 
@@ -62,7 +72,11 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponseAluno pegaAluno(Long id) {
+    public ResponseAluno pegaAluno(Long id, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         AlunoEntity aluno = pegaAlunoEntity(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         return aluno.toResponseAluno();
     }
@@ -73,7 +87,12 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponseAluno atualizaAluno(long id, RequestAluno dto) {
+    public ResponseAluno atualizaAluno(long id, RequestAluno dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
         UsuarioEntity user = usuarioService.pegaUmUsuarioPeloLogin(dto.login());
         TurmaEntity turma = turmaService.pegaTurmaEntity(dto.turmaId()).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
@@ -116,7 +135,11 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public List<ResponseAluno> pegaAlunos() {
+    public List<ResponseAluno> pegaAlunos(String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         List<AlunoEntity> alunos = repository.findAll();
         if (alunos.size() <= 0) {
             throw new NotFoundException("Não há alunos cadastrados.");
@@ -128,8 +151,19 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public List<ResponseNota> pegaNotasAluno(long id) {
+    public List<ResponseNota> pegaNotasAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+        if (
+                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
+                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
+                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
         List<NotaEntity> notas = aluno.getNotas();
         if (notas.size() <= 0) {
             throw new NotFoundException("Não há notas cadastradas para o aluno especificado.");
@@ -141,8 +175,20 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public ResponsePontuacao pegaPontuacaoAluno(long id) {
+    public ResponsePontuacao pegaPontuacaoAluno(long id, String token) {
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+        if (
+                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
+                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
+                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
+                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
+
+
         List<NotaEntity> notas = aluno.getNotas();
         if (notas.size() <= 0) {
             return new ResponsePontuacao(0.0);

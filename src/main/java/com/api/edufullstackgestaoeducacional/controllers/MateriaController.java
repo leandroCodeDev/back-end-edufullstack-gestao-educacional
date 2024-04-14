@@ -20,6 +20,8 @@ public class MateriaController {
         this.service = colecao.getMateriaService();
         this.service.setCursoService(colecao.getCursoService());
         this.tokenService = colecao.getTokenService();
+        this.service.setTokenService(colecao.getTokenService());
+
 
     }
 

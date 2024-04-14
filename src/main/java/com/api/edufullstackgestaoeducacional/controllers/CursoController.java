@@ -22,6 +22,8 @@ public class CursoController {
     public CursoController(ColecaoService colecao) {
         this.service = colecao.getCursoService();
         this.tokenService = colecao.getTokenService();
+        this.service.setTokenService(colecao.getTokenService());
+
 
     }
 
@@ -30,8 +32,8 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCurso request) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.status(201).body(service.criarCurso(request));
+
+        return ResponseEntity.status(201).body(service.criarCurso(request, token));
     }
 
 
@@ -42,8 +44,8 @@ public class CursoController {
             @RequestBody @Valid RequestCurso dto
     ) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.atualizaCurso(id, dto));
+
+        return ResponseEntity.ok(service.atualizaCurso(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -51,8 +53,8 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaCurso(id));
+
+        return ResponseEntity.ok(service.pegaCurso(id, token));
     }
 
     @GetMapping("/{id}/materias")
@@ -60,16 +62,16 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaMateriasdoCurso(id));
+
+        return ResponseEntity.ok(service.pegaMateriasdoCurso(id, token));
     }
 
     @GetMapping("")
     public ResponseEntity<List<ResponseCurso>> pegaCursos(
             @RequestHeader(name = "Authorization") String token) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaCursos());
+
+        return ResponseEntity.ok(service.pegaCursos(token));
     }
 
     @DeleteMapping("/{id}")

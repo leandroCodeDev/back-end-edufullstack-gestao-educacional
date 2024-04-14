@@ -18,16 +18,16 @@ public interface DocenteService {
 
     void setUsuarioService(UsuarioService usuarioService);
 
-    ResponseCriarDocente criarDocente(RequestCriarDocente dto);
+    ResponseCriarDocente criarDocente(RequestCriarDocente dto, String token);
 
-    ResponsePegaDocente pegaDocente(Long id);
+    ResponsePegaDocente pegaDocente(Long id, String token);
 
     Optional<DocenteEntity> pegaDocenteEntity(Long id);
 
-    ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto);
+    ResponseAtualizaDocente atualizaDocente(long id, RequestAtualizaDocente dto, String token);
 
     void deleteDocente(Long id);
 
 
-    List<ResponsePegaDocente> pegaDocentes();
+    List<ResponsePegaDocente> pegaDocentes(String token);
 }

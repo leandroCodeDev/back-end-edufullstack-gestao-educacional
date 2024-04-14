@@ -6,9 +6,11 @@ import com.api.edufullstackgestaoeducacional.entities.CursoEntity;
 import com.api.edufullstackgestaoeducacional.entities.DocenteEntity;
 import com.api.edufullstackgestaoeducacional.entities.TurmaEntity;
 import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
+import com.api.edufullstackgestaoeducacional.exception.erros.UnauthorizedException;
 import com.api.edufullstackgestaoeducacional.repositories.TurmaRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.DocenteService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import com.api.edufullstackgestaoeducacional.services.TurmaService;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class TurmaServiceImpl implements TurmaService {
     private CursoService cursoService;
     @Setter
     private DocenteService docenteService;
+    @Setter
+    private TokenService tokenService;
 
     public TurmaServiceImpl(TurmaRepository repository) {
         this.repository = repository;
@@ -34,8 +38,11 @@ public class TurmaServiceImpl implements TurmaService {
 
 
     @Override
-    public ResponseTurma criarTurma(RequestTurma dto) {
-
+    public ResponseTurma criarTurma(RequestTurma dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
         DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
 
@@ -50,7 +57,11 @@ public class TurmaServiceImpl implements TurmaService {
     }
 
     @Override
-    public ResponseTurma pegaTurma(Long id) {
+    public ResponseTurma pegaTurma(Long id, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
         return turma.toResponseTurma();
     }
@@ -62,7 +73,11 @@ public class TurmaServiceImpl implements TurmaService {
     }
 
     @Override
-    public ResponseTurma atualizaTurma(long id, RequestTurma dto) {
+    public ResponseTurma atualizaTurma(long id, RequestTurma dto, String token) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         TurmaEntity turma = pegaTurmaEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
         DocenteEntity docente = docenteService.pegaDocenteEntity(dto.docenteId()).orElseThrow(() -> new NotFoundException("Docente não encontrado"));
         CursoEntity curso = cursoService.pegaCursoEntity(dto.cursoId()).orElseThrow(() -> new NotFoundException("Curso não encontrado"));
@@ -96,7 +111,11 @@ public class TurmaServiceImpl implements TurmaService {
     }
 
     @Override
-    public List<ResponseTurma> pegaTurmas() {
+    public List<ResponseTurma> pegaTurmas(String token, String s) {
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        if (!perfil.equals("PEDAGOGICO") && !perfil.equals("ADMIN")) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+        }
         List<TurmaEntity> turmas = repository.findAll();
         if (turmas.size() <= 0) {
             throw new NotFoundException("Não há turmas cadastrados.");

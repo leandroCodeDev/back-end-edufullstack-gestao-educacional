@@ -29,7 +29,6 @@ public class CadastroController {
             @RequestBody @Valid RequestNovoUsuario request) {
 
         this.tokenService.validateAdmin(token);
-
         return ResponseEntity.status(201).body(service.cadastrar(request));
     }
 }

@@ -22,6 +22,8 @@ public class NotaController {
         this.service.setAlunoService(colecao.getAlunoService());
         this.service.setDocenteService(colecao.getDocenteService());
         this.service.setMateriaService(colecao.getMateriaService());
+        this.service.setTokenService(colecao.getTokenService());
+
     }
 
     @PostMapping()
@@ -29,8 +31,8 @@ public class NotaController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestNota request) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.status(201).body(service.criarNota(request));
+
+        return ResponseEntity.status(201).body(service.criarNota(request, token));
     }
 
 
@@ -41,8 +43,8 @@ public class NotaController {
             @RequestBody @Valid RequestNota dto
     ) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.atualizaNota(id, dto));
+
+        return ResponseEntity.ok(service.atualizaNota(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -50,8 +52,8 @@ public class NotaController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
-        return ResponseEntity.ok(service.pegaNota(id));
+
+        return ResponseEntity.ok(service.pegaNota(id, token));
     }
 
 

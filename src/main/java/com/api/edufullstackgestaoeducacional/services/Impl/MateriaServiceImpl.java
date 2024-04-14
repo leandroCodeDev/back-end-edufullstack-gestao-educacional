@@ -8,6 +8,7 @@ import com.api.edufullstackgestaoeducacional.exception.erros.NotFoundException;
 import com.api.edufullstackgestaoeducacional.repositories.MateriaRepository;
 import com.api.edufullstackgestaoeducacional.services.CursoService;
 import com.api.edufullstackgestaoeducacional.services.MateriaService;
+import com.api.edufullstackgestaoeducacional.services.TokenService;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Setter
     private CursoService cursoService;
-
+    @Setter
+    private TokenService tokenService;
     public MateriaServiceImpl(MateriaRepository repository) {
         this.repository = repository;
     }

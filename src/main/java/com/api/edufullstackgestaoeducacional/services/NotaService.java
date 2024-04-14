@@ -15,14 +15,16 @@ public interface NotaService {
 
     void setMateriaService(MateriaService materiaService);
 
+    void setTokenService(TokenService tokenService);
 
-    ResponseNota criarNota(RequestNota dto);
 
-    ResponseNota pegaNota(Long id);
+    ResponseNota criarNota(RequestNota dto, String token);
+
+    ResponseNota pegaNota(Long id, String token);
 
     Optional<NotaEntity> pegaNotaEntity(Long id);
 
-    ResponseNota atualizaNota(long id, RequestNota dto);
+    ResponseNota atualizaNota(long id, RequestNota dto, String token);
 
     void deleteNota(Long id);
 

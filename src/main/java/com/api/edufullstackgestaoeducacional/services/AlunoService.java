@@ -17,19 +17,21 @@ public interface AlunoService {
 
     void setTurmaService(TurmaService turmaService);
 
-    ResponseAluno criarAluno(RequestCriaAluno dto);
+    void setTokenService(TokenService tokenService);
 
-    ResponseAluno pegaAluno(Long id);
+    ResponseAluno criarAluno(RequestCriaAluno dto, String token);
+
+    ResponseAluno pegaAluno(Long id, String token);
 
     Optional<AlunoEntity> pegaAlunoEntity(Long id);
 
-    ResponseAluno atualizaAluno(long id, RequestAluno dto);
+    ResponseAluno atualizaAluno(long id, RequestAluno dto, String token);
 
     void deleteAluno(Long id);
 
-    List<ResponseAluno> pegaAlunos();
+    List<ResponseAluno> pegaAlunos(String token);
 
-    List<ResponseNota> pegaNotasAluno(long id);
+    List<ResponseNota> pegaNotasAluno(long id, String token);
 
-    ResponsePontuacao pegaPontuacaoAluno(long id);
+    ResponsePontuacao pegaPontuacaoAluno(long id, String token);
 }
