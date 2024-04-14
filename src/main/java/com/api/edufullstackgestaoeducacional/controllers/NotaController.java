@@ -29,7 +29,7 @@ public class NotaController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestNota request) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.status(201).body(service.criarNota(request));
     }
 
@@ -41,7 +41,7 @@ public class NotaController {
             @RequestBody @Valid RequestNota dto
     ) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.atualizaNota(id, dto));
     }
 
@@ -50,7 +50,7 @@ public class NotaController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaNota(id));
     }
 

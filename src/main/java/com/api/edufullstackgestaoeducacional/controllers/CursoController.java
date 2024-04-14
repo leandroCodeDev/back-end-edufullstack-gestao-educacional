@@ -30,7 +30,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCurso request) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.status(201).body(service.criarCurso(request));
     }
 
@@ -42,7 +42,7 @@ public class CursoController {
             @RequestBody @Valid RequestCurso dto
     ) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.atualizaCurso(id, dto));
     }
 
@@ -51,7 +51,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaCurso(id));
     }
 
@@ -60,7 +60,7 @@ public class CursoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaMateriasdoCurso(id));
     }
 
@@ -68,7 +68,7 @@ public class CursoController {
     public ResponseEntity<List<ResponseCurso>> pegaCursos(
             @RequestHeader(name = "Authorization") String token) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaCursos());
     }
 

@@ -30,7 +30,7 @@ public class TurmaController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestTurma request) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.status(201).body(service.criarTurma(request));
     }
 
@@ -42,7 +42,7 @@ public class TurmaController {
             @RequestBody @Valid RequestTurma dto
     ) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.atualizaTurma(id, dto));
     }
 
@@ -51,7 +51,7 @@ public class TurmaController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaTurma(id));
     }
 
@@ -59,7 +59,7 @@ public class TurmaController {
     public ResponseEntity<List<ResponseTurma>> pegaTurmas(
             @RequestHeader(name = "Authorization") String token) {
 
-        this.tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaTurmas());
     }
 

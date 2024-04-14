@@ -35,7 +35,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @RequestBody @Valid RequestCriaAluno dto
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.status(201).body(service.criarAluno(dto));
     }
 
@@ -45,7 +45,7 @@ public class AlunoController {
             @PathVariable(name = "id") long id,
             @RequestBody @Valid RequestAluno dto
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.atualizaAluno(id, dto));
     }
 
@@ -54,7 +54,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaAluno(id));
     }
 
@@ -64,7 +64,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaNotasAluno(id));
     }
 
@@ -73,7 +73,7 @@ public class AlunoController {
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") long id
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaPontuacaoAluno(id));
     }
 
@@ -81,7 +81,7 @@ public class AlunoController {
     public ResponseEntity<List<ResponseAluno>> pegaAluno(
             @RequestHeader(name = "Authorization") String token
     ) {
-        tokenService.validateAdmin(token);
+
         return ResponseEntity.ok(service.pegaAlunos());
     }
 
