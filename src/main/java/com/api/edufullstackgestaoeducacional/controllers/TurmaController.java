@@ -33,7 +33,7 @@ public class TurmaController {
             @RequestBody @Valid RequestTurma request) {
 
 
-        return ResponseEntity.status(201).body(service.criarTurma(request));
+        return ResponseEntity.status(201).body(service.criarTurma(request, token));
     }
 
 
@@ -45,7 +45,7 @@ public class TurmaController {
     ) {
 
 
-        return ResponseEntity.ok(service.atualizaTurma(id, dto));
+        return ResponseEntity.ok(service.atualizaTurma(id, dto, token));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +54,7 @@ public class TurmaController {
             @PathVariable(name = "id") Long id) {
 
 
-        return ResponseEntity.ok(service.pegaTurma(id));
+        return ResponseEntity.ok(service.pegaTurma(id, token));
     }
 
     @GetMapping("")
@@ -62,7 +62,7 @@ public class TurmaController {
             @RequestHeader(name = "Authorization") String token) {
 
 
-        return ResponseEntity.ok(service.pegaTurmas());
+        return ResponseEntity.ok(service.pegaTurmas(token, token));
     }
 
     @DeleteMapping("/{id}")

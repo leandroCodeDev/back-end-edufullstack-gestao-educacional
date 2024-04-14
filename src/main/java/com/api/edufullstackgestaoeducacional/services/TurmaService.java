@@ -16,15 +16,15 @@ public interface TurmaService {
 
     void setTokenService(TokenService tokenService);
 
-    ResponseTurma criarTurma(RequestTurma dto);
+    ResponseTurma criarTurma(RequestTurma dto, String token);
 
-    ResponseTurma pegaTurma(Long id);
+    ResponseTurma pegaTurma(Long id, String token);
 
     Optional<TurmaEntity> pegaTurmaEntity(Long id);
 
-    ResponseTurma atualizaTurma(long id, RequestTurma dto);
+    ResponseTurma atualizaTurma(long id, RequestTurma dto, String token);
 
     void deleteTurma(Long id);
 
-    List<ResponseTurma> pegaTurmas();
+    List<ResponseTurma> pegaTurmas(String token, String s);
 }
