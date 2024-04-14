@@ -39,7 +39,7 @@ public class CursoController {
     public ResponseEntity<ResponseCurso> atualizaCurso(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id,
-            @RequestBody RequestCurso dto
+            @RequestBody @Valid RequestCurso dto
     ) {
 
         this.tokenService.validateAdmin(token);

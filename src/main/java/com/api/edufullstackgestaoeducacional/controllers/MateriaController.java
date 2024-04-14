@@ -37,7 +37,7 @@ public class MateriaController {
     public ResponseEntity<ResponseMateria> atualizaMateria(
             @RequestHeader(name = "Authorization") String token,
             @PathVariable(name = "id") Long id,
-            @RequestBody RequestMateria dto
+            @RequestBody @Valid RequestMateria dto
     ) {
 
         this.tokenService.validateAdmin(token);
