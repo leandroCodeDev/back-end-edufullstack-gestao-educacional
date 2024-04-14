@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -113,7 +114,14 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public List<ResponseAluno> pegaAlunos() {
-        return List.of();
+        List<AlunoEntity> alunos = repository.findAll();
+        if (alunos.size() <= 0) {
+            throw new NotFoundException("Não há alunos cadastrados.");
+        }
+        return alunos.stream()
+                .map(AlunoEntity::toResponseAluno)
+                .collect(Collectors.toList());
+
     }
 
     private void exiteUsuario(Long id) {
