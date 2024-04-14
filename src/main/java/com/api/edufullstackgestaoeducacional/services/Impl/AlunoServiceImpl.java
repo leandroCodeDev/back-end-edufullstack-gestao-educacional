@@ -59,7 +59,8 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public ResponseAluno pegaAluno(Long id) {
-        return null;
+        AlunoEntity aluno = pegaAlunoEntity(id).orElseThrow(() -> new NotFoundException("Turma não encontrado"));
+        return aluno.toResponseAluno();
     }
 
     @Override
