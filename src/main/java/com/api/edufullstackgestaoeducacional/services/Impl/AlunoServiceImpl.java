@@ -5,6 +5,7 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAl
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriaAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNota;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePontuacao;
 import com.api.edufullstackgestaoeducacional.entities.AlunoEntity;
 import com.api.edufullstackgestaoeducacional.entities.NotaEntity;
 import com.api.edufullstackgestaoeducacional.entities.TurmaEntity;
@@ -137,6 +138,25 @@ public class AlunoServiceImpl implements AlunoService {
         return notas.stream()
                 .map(NotaEntity::toResponseNota)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ResponsePontuacao pegaPontuacaoAluno(long id) {
+        AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+        List<NotaEntity> notas = aluno.getNotas();
+        if (notas.size() <= 0) {
+            return new ResponsePontuacao(0.0);
+        }
+
+        double soma = notas.stream()
+                .mapToDouble(NotaEntity::getValor) // Mapeie para os valores
+                .reduce(0, Double::sum);
+
+        double media = soma / notas.size();
+
+        double pontuacao = media * 10;
+
+        return new ResponsePontuacao(pontuacao);
     }
 
     private void exiteUsuario(Long id) {

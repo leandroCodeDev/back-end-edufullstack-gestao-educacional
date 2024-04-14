@@ -4,6 +4,7 @@ import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestAl
 import com.api.edufullstackgestaoeducacional.controllers.dtos.requests.RequestCriaAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseAluno;
 import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponseNota;
+import com.api.edufullstackgestaoeducacional.controllers.dtos.responses.ResponsePontuacao;
 import com.api.edufullstackgestaoeducacional.services.AlunoService;
 import com.api.edufullstackgestaoeducacional.services.ColecaoService;
 import com.api.edufullstackgestaoeducacional.services.TokenService;
@@ -65,6 +66,15 @@ public class AlunoController {
     ) {
         tokenService.validateAdmin(token);
         return ResponseEntity.ok(service.pegaNotasAluno(id));
+    }
+
+    @GetMapping("/{id}/pontuacao")
+    public ResponseEntity<ResponsePontuacao> pegaPontuacaoAluno(
+            @RequestHeader(name = "Authorization") String token,
+            @PathVariable(name = "id") long id
+    ) {
+        tokenService.validateAdmin(token);
+        return ResponseEntity.ok(service.pegaPontuacaoAluno(id));
     }
 
     @GetMapping()
