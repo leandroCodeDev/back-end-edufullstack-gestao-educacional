@@ -214,7 +214,7 @@ O projeto possui as seguintes entidades, cada uma representando um elemento esse
 Essas entidades formam a base do sistema e são essenciais para o seu funcionamento.
 
 Representação das entidades na modelagem do Diagrama ER (Entidade-Relacionamento).
-![Diagrama ER](https://raw.githubusercontent.com/leandroCodeDev/edufullstack-gestao-educacional/main/imagens/gestao-educacional%20.png?token=GHSAT0AAAAAACQ64G5673XOEVDMBEQZSIHUZQ4MF7Q)
+![Diagrama ER](imagens/gestao-educacional%20.png)
 
 ## Utilização de Papéis de Usuário
 
