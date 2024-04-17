@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -219,8 +218,7 @@ public class AlunoServiceImpl implements AlunoService {
         double pontuacao = 0.0;
         if (!notas.isEmpty()) {
             double soma = notas.stream().mapToDouble(NotaEntity::getValor).sum();
-            Set<Long> materiasIds = notas.stream().map(nota -> nota.getMateria().getId()).collect(Collectors.toSet());
-            double media = soma / materiasIds.size();
+            double media = soma / aluno.getTurma().getCurso().getMaterias().size();
             pontuacao = media * 10;
         }
 
