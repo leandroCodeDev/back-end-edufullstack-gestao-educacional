@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -164,14 +165,21 @@ public class AlunoServiceImpl implements AlunoService {
         log.info("pega notas de aluno");
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-        if (
-                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
-                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
-                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
-                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
-                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        String login = tokenService.buscaCampo(token, "scope");
+
+        if (!perfil.equalsIgnoreCase("ALUNO")
+                && !perfil.equalsIgnoreCase("PROFESSOR")
+                && !perfil.equalsIgnoreCase("PEDAGOGICO")
+                && !perfil.equalsIgnoreCase("ADMIN")
         ) {
-            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+            throw new UnauthorizedException("Acesso não autorizado", "Usuário não tem acesso a esta funcionalidade");
+        }
+
+        if (perfil.equalsIgnoreCase("ALUNO")
+                && !aluno.getUsuario().getLogin().equals(login)
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuário não tem acesso aos dados deste aluno");
         }
 
         List<NotaEntity> notas = aluno.getNotas();
@@ -189,29 +197,33 @@ public class AlunoServiceImpl implements AlunoService {
         log.info("pega pontuação de aluno");
         AlunoEntity aluno = repository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-        if (
-                (tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ALUNO")
-                        && !aluno.getUsuario().getLogin().equals(tokenService.buscaCampo(token, "scope")))
-                        || (!tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PROFESSOR")
-                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("PEDAGOGICO")
-                        && !tokenService.buscaCampo(token, "perfil").equalsIgnoreCase("ADMIN"))
+        String perfil = tokenService.buscaCampo(token, "perfil");
+        String login = tokenService.buscaCampo(token, "scope");
+
+        if (!perfil.equalsIgnoreCase("ALUNO")
+                && !perfil.equalsIgnoreCase("PROFESSOR")
+                && !perfil.equalsIgnoreCase("PEDAGOGICO")
+                && !perfil.equalsIgnoreCase("ADMIN")
         ) {
-            throw new UnauthorizedException("Acesso não autorizado", "Usuario não tem acesso a essa funcionalidade");
+            throw new UnauthorizedException("Acesso não autorizado", "Usuário não tem acesso a esta funcionalidade");
         }
+        if (perfil.equalsIgnoreCase("ALUNO")
+                && !aluno.getUsuario().getLogin().equals(login)
+        ) {
+            throw new UnauthorizedException("Acesso não autorizado", "Usuário não tem acesso aos dados deste aluno");
+        }
+
 
 
         List<NotaEntity> notas = aluno.getNotas();
-        if (notas.size() <= 0) {
-            return new ResponsePontuacao(0.0);
+        double pontuacao = 0.0;
+        if (!notas.isEmpty()) {
+            double soma = notas.stream().mapToDouble(NotaEntity::getValor).sum();
+            Set<Long> materiasIds = notas.stream().map(nota -> nota.getMateria().getId()).collect(Collectors.toSet());
+            double media = soma / materiasIds.size();
+            pontuacao = media * 10;
         }
 
-        double soma = notas.stream()
-                .mapToDouble(NotaEntity::getValor) // Mapeie para os valores
-                .reduce(0, Double::sum);
-
-        double media = soma / notas.size();
-
-        double pontuacao = media * 10;
 
         return new ResponsePontuacao(pontuacao);
     }
