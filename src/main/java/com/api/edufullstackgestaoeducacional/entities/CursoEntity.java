@@ -28,6 +28,9 @@ public class CursoEntity {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<MateriaEntity> materias;
 
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<TurmaEntity> turmas;
+
 
     public CursoEntity(RequestCurso dto) {
         log.info("cria nova entidade de curso");

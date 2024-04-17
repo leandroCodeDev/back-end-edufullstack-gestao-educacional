@@ -23,6 +23,7 @@ public class LoginController {
         this.service = colecao.getUsuarioService();
         this.service.setPerfilService(colecao.getPerfilService());
         this.service.setTokenService(colecao.getTokenService());
+        this.service.setSenhaService(colecao.getSenhaService());
     }
 
     @PostMapping()

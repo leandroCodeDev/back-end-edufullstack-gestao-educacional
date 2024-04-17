@@ -32,6 +32,12 @@ public class UsuarioEntity {
     @JoinColumn(name = "perfil_id")
     private PerfilEntity perfil;
 
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private DocenteEntity docente;
+
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private AlunoEntity aluno;
+
 
     public UsuarioEntity(RequestLogin dto) {
         log.info("cria nova entidade de usuario");
