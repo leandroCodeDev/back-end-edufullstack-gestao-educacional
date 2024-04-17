@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @Slf4j
 @Data
 @Entity
@@ -31,6 +33,10 @@ public class TurmaEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "curso_id")
     private CursoEntity curso;
+
+
+    @OneToMany(mappedBy = "turma", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<AlunoEntity> alunos;
 
     public TurmaEntity(RequestTurma dto, CursoEntity curso, DocenteEntity docente) {
         log.info("cria nova entidade de turma");

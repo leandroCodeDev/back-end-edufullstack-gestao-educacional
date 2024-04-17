@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Data
@@ -37,6 +38,12 @@ public class DocenteEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", unique = true)
     private UsuarioEntity usuario;
+
+    @OneToMany(mappedBy = "docente", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<TurmaEntity> turmas;
+
+    @OneToMany(mappedBy = "docente", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<NotaEntity> notas;
 
 
     public DocenteEntity(RequestCriarDocente dto) {

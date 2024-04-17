@@ -39,7 +39,7 @@ public class AlunoEntity {
     @JoinColumn(name = "turma_id", unique = true)
     private TurmaEntity turma;
 
-    @OneToMany(mappedBy = "aluno", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<NotaEntity> notas;
 
 
