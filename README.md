@@ -27,6 +27,10 @@ experiência integrada e eficaz para todas as partes envolvidas no processo educ
 - [Insomnia](https://insomnia.rest/)
 - [Trello](https://trello.com/pt-BR)
 
+## Documentos uteis
+- [Dashboard Módulo 1 - Projeto Avaliativo](https://trello.com/b/vp1lixKS/modulo-1-projeto-avaliativo)
+- [Documento de requisitos do projeto](https://docs.google.com/document/d/1bbkIqQxlOK8kibHfosuQ2SmtmonbJMTaaSW9X1Yr5eY/edit?usp=sharing)
+
 ## Pré-Requisitos
 
 - JDK 21 ou superior instalado
